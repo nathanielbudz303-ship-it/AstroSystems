@@ -1,0 +1,469 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTRO Systems | Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#151b23',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            outline: none;
+        }
+
+        /* Animation Classes */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Motor Animations */
+        .spin-cw {
+            animation: spin 0.6s linear infinite;
+        }
+
+        .spin-ccw {
+            animation: spin-reverse 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin-reverse {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+
+        /* Positioning */
+        .motor-wrapper {
+            position: absolute;
+            width: 3.5rem;
+            height: 3.5rem;
+            z-index: 30;
+            transform: translate(-50%, -50%);
+        }
+
+        .pos-1 {
+            top: 15%;
+            left: 50%;
+        }
+
+        .pos-2 {
+            top: 32.5%;
+            left: 80.3%;
+        }
+
+        .pos-3 {
+            top: 67.5%;
+            left: 80.3%;
+        }
+
+        .pos-4 {
+            top: 85%;
+            left: 50%;
+        }
+
+        .pos-5 {
+            top: 67.5%;
+            left: 19.7%;
+        }
+
+        .pos-6 {
+            top: 32.5%;
+            left: 19.7%;
+        }
+
+        .spoke {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0.375rem;
+            height: 9rem;
+            background-color: #94a3b8;
+            transform-origin: top center;
+            border-radius: 9999px;
+            translate: -50% 0;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 3D Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Logo -->
+    <a href="index.html"
+        class="absolute top-8 left-8 z-50 opacity-100 hover:opacity-80 transition-opacity duration-300">
+        <img src="assets/images/logo.png" alt="ASTRO Systems" class="h-24 w-auto">
+    </a>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 right-0 p-6 z-50 flex gap-4">
+        <a href="astra.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">Astra</a>
+        <a href="about.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">About
+            Us</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+        class="relative z-10 h-screen flex flex-col items-center justify-start pt-[30vh] md:pt-[20vh] pointer-events-none">
+        <div class="text-center mix-blend-difference pointer-events-auto reveal-on-scroll reveal-visible px-4">
+            <h1
+                class="text-5xl sm:text-7xl md:text-9xl lg:text-[12rem] leading-[0.85] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 font-outfit select-none drop-shadow-2xl">
+                ASTRO<br />Systems
+            </h1>
+            <p
+                class="mt-6 md:mt-8 text-white/50 tracking-widest uppercase text-[10px] sm:text-xs md:text-sm font-light">
+                Experimental Heavy Lift Platform
+            </p>
+        </div>
+    </section>
+
+    <!-- RESTORED CONTENT SECTION -->
+    <section
+        class="relative z-20 w-full bg-white text-slate-900 min-h-screen pb-52 mt-[20vh] shadow-[0_-50px_100px_rgba(0,0,0,0.5)]">
+        <div class="max-w-4xl mx-auto px-6 pt-32 flex flex-col items-center text-center">
+
+            <div class="mb-24 space-y-8 w-full">
+                <div class="reveal-on-scroll flex flex-col items-center">
+                    <h2 class="text-4xl md:text-6xl font-light tracking-tight font-outfit text-slate-950 mb-6">
+                        Meet <span class="font-bold">Astra</span>
+                    </h2>
+                    <p class="text-lg md:text-xl text-slate-600 font-light max-w-2xl border-t border-slate-200 pt-6">
+                        Our experimental entry for the <span class="font-medium text-slate-900">DARPA Heavy Lift
+                            Challenge</span>.
+                    </p>
+                    <div class="pt-8">
+                        <a href="astra.html"
+                            class="inline-block px-8 py-3 bg-slate-900 text-white rounded-full font-light tracking-wide hover:bg-slate-800 transition-all duration-300">Learn
+                            More</a>
+                    </div>
+                </div>
+
+                <div class="space-y-8 text-slate-700 max-w-3xl mx-auto text-lg leading-relaxed font-inter">
+                    <p class="reveal-on-scroll" style="transition-delay: 100ms;">
+                        The ASTRA System consists of three lightweight heavy-lift drones capable of achieving a
+                        groundbreaking 4:1 payload-to-weight ratio.
+                        This is made possible by a unique 360-degree airfoil design working in concert with a gimbaled
+                        VTOL propulsion system.
+                    </p>
+                    <p class="reveal-on-scroll" style="transition-delay: 200ms;">
+                        The most innovative part of Astra is its body. In a normal drone, the frame is just dead weight.
+                        In Astra, the entire body is shaped like a high-tech wing, using advanced topology to ensure
+                        that nearly 100% of the drone’s surface area contributes to lift.
+                    </p>
+                    <p class="reveal-on-scroll" style="transition-delay: 300ms;">
+                        Once at cruising altitude, the motors tilt 90 degrees for forward flight. This reorientation
+                        directs high-speed airflow
+                        across the back of the airframe, artificially boosting lift and keeping the drone airborne with
+                        minimal effort.
+                    </p>
+                    <p class="reveal-on-scroll" style="transition-delay: 400ms;">
+                        This total-body lift approach drastically reduces battery consumption, allowing for extended
+                        mission times while carrying heavy equipment.
+                        The race ends with a synchronized descent to safely drop the payload before detaching to return
+                        at high speeds.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Drone Visual (CSS Animation) -->
+            <div class="flex flex-col items-center justify-center py-12 reveal-on-scroll">
+                <div class="relative w-[300px] md:w-[400px] h-[300px] md:h-[400px] flex items-center justify-center">
+                    <div class="absolute inset-0 border border-slate-300 rounded-full scale-110 opacity-50"></div>
+                    <div
+                        class="absolute inset-0 border-[24px] border-slate-900 rounded-full shadow-2xl bg-slate-100/10 backdrop-blur-[2px] z-0">
+                    </div>
+                    <div class="relative w-full h-full rounded-full flex items-center justify-center z-10">
+                        <div
+                            class="absolute top-1/2 left-1/2 w-16 h-16 bg-slate-900 rounded-full z-20 shadow-lg border-2 border-slate-700 -translate-x-1/2 -translate-y-1/2">
+                        </div>
+                        <div class="spoke" style="transform: rotate(180deg);"></div>
+                        <div class="spoke" style="transform: rotate(240deg);"></div>
+                        <div class="spoke" style="transform: rotate(300deg);"></div>
+                        <div class="spoke" style="transform: rotate(0deg);"></div>
+                        <div class="spoke" style="transform: rotate(60deg);"></div>
+                        <div class="spoke" style="transform: rotate(120deg);"></div>
+
+                        <!-- Motors -->
+                        <div class="motor-wrapper pos-1">
+                            <div
+                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-cw shadow-lg">
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
+                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
+                            </div>
+                        </div>
+                        <div class="motor-wrapper pos-2">
+                            <div
+                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-ccw shadow-lg">
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
+                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
+                            </div>
+                        </div>
+                        <div class="motor-wrapper pos-3">
+                            <div
+                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-cw shadow-lg">
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
+                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
+                            </div>
+                        </div>
+                        <div class="motor-wrapper pos-4">
+                            <div
+                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-ccw shadow-lg">
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
+                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
+                            </div>
+                        </div>
+                        <div class="motor-wrapper pos-5">
+                            <div
+                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-cw shadow-lg">
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
+                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
+                            </div>
+                        </div>
+                        <div class="motor-wrapper pos-6">
+                            <div
+                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-ccw shadow-lg">
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
+                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
+                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-8 text-slate-500 font-light text-sm tracking-widest uppercase font-mono">TOP DOWN VIEW / /
+                    2D MODEL</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-20 w-full bg-[#020617] border-t border-slate-800 py-12 reveal-on-scroll">
+        <div class="w-full flex justify-center items-center text-slate-500 text-sm">
+            <p>&copy; 2026 ASTRO Systems. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Intersection Observer -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('reveal-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-on-scroll').forEach((el) => observer.observe(el));
+    </script>
+
+    <!-- Import Map -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Main 3D Script (V7 Logic) -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+        // --- SETUP ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x020617);
+        scene.fog = new THREE.FogExp2(0x020617, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        // Initial responsive camera check
+        function updateCameraPosition() {
+            if (window.innerWidth < 768) {
+                // Mobile: Pull camera back significantly (Zoom out)
+                camera.position.set(16, 12, 23);
+            } else {
+                // Desktop: Standard position
+                camera.position.set(8, 6, 12);
+            }
+        }
+        updateCameraPosition();
+
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.5;
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.enablePan = false;
+        controls.enableZoom = false; // ZOOM DISABLED for Scroll Fix
+
+        // Environment
+        const pmremGenerator = new THREE.PMREMGenerator(renderer);
+        scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
+        scene.add(ambientLight);
+        const spotLight = new THREE.SpotLight(0xffffff, 100);
+        spotLight.position.set(5, 10, 5);
+        scene.add(spotLight);
+        const blueLight = new THREE.PointLight(0x3b82f6, 30);
+        blueLight.position.set(-5, -2, -5);
+        scene.add(blueLight);
+
+        // Loaders
+        const loader = new GLTFLoader();
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+        loader.setDRACOLoader(dracoLoader);
+
+        const pivotGroup = new THREE.Group();
+        pivotGroup.position.set(0, -3, 0); // Lowered
+        scene.add(pivotGroup);
+
+        loader.load('assets/models/HalfFoil.glb', (gltf) => {
+            const originalModel = gltf.scene;
+
+            // 1. Calculations
+            const box = new THREE.Box3().setFromObject(originalModel);
+            const center = box.getCenter(new THREE.Vector3());
+            const size = box.getSize(new THREE.Vector3());
+
+            // 2. Material
+            const metalMaterial = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                metalness: 0.8,
+                roughness: 0.15,
+                side: THREE.DoubleSide
+            });
+
+            originalModel.traverse(child => {
+                if (child.isMesh) child.material = metalMaterial;
+            });
+
+            // 3. Mirror Logic
+            const mirroredModel = originalModel.clone();
+            const fullRingWrapper = new THREE.Group();
+
+            originalModel.position.sub(center);
+            fullRingWrapper.add(originalModel);
+
+            mirroredModel.position.sub(center);
+            mirroredModel.scale.set(1, 1, -1);
+            fullRingWrapper.add(mirroredModel);
+
+            // 4. Stand Upright & Scale
+            // Tilted slightly to show more top surface (PI/2.5 instead of PI/2)
+            fullRingWrapper.rotation.x = Math.PI / 2;
+            const targetSize = 15;
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const scale = targetSize / maxDim;
+            fullRingWrapper.scale.setScalar(scale);
+
+            // Mark for export finding
+            fullRingWrapper.name = "Astra_Full_Ring";
+
+            pivotGroup.add(fullRingWrapper);
+
+        }, undefined, (err) => {
+            console.error(err);
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            pivotGroup.rotation.y += 0.002;
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Optional: Re-check camera position on resize (if orientation changes)
+            // Note: We might want a smoother transition, but snap is fine for now
+            updateCameraPosition();
+        });
+
+        animate();
+    </script>
+</body>
+
+</html>

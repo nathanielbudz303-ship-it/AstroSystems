@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | ASTRO Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#151b23',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Logo -->
+    <a href="index.html"
+        class="absolute top-8 left-8 z-50 opacity-100 hover:opacity-80 transition-opacity duration-300">
+        <img src="assets/images/logo.png" alt="ASTRO Systems" class="h-24 w-auto">
+    </a>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 right-0 p-6 z-50 flex gap-4">
+        <a href="astra.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">Astra</a>
+        <a href="index.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">Home</a>
+    </nav>
+
+    <!-- Header -->
+    <section class="relative min-h-[40vh] flex flex-col items-center justify-center pt-24 pb-12">
+        <div class="text-center reveal-on-scroll reveal-visible relative z-10 px-4">
+            <h1
+                class="text-6xl md:text-9xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 font-outfit select-none drop-shadow-2xl">
+                Mission<br>Gallery
+            </h1>
+            <p class="mt-8 text-white/50 tracking-widest uppercase text-sm font-light">Documenting the Journey</p>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="relative z-20 w-full bg-white text-slate-900 py-24 min-h-screen">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-12">
+                <!-- Gallery Images -->
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_1.png')">
+                    <img src="assets/images/astra/gallery_1.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_2.png')">
+                    <img src="assets/images/astra/gallery_2.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_3.jpg')">
+                    <img src="assets/images/astra/gallery_3.jpg"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_4.jpg')">
+                    <img src="assets/images/astra/gallery_4.jpg"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_5.jpg')">
+                    <img src="assets/images/astra/gallery_5.jpg"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_6.png')">
+                    <img src="assets/images/astra/gallery_6.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_7.png')">
+                    <img src="assets/images/astra/gallery_7.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_8.png')">
+                    <img src="assets/images/astra/gallery_8.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_9.png')">
+                    <img src="assets/images/astra/gallery_9.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_10.png')">
+                    <img src="assets/images/astra/gallery_10.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_11.png')">
+                    <img src="assets/images/astra/gallery_11.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_12.png')">
+                    <img src="assets/images/astra/gallery_12.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_13.png')">
+                    <img src="assets/images/astra/gallery_13.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_14.png')">
+                    <img src="assets/images/astra/gallery_14.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_15.jpg')">
+                    <img src="assets/images/astra/gallery_15.jpg"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_16.png')">
+                    <img src="assets/images/astra/gallery_16.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_17.png')">
+                    <img src="assets/images/astra/gallery_17.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_18.png')">
+                    <img src="assets/images/astra/gallery_18.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="aspect-video bg-slate-900 rounded-lg overflow-hidden relative group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300"
+                    onclick="openLightbox('assets/images/astra/gallery_19.png')">
+                    <img src="assets/images/astra/gallery_19.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Gallery Image">
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-20 w-full bg-[#020617] border-t border-slate-800 py-12 reveal-on-scroll">
+        <div class="w-full flex justify-center items-center text-slate-500 text-sm">
+            <p>&copy; 2026 ASTRO Systems. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal"
+        class="fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeLightbox()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+            <img id="lightbox-image" src="" alt="Full View"
+                class="max-w-full max-h-full object-contain pointer-events-auto shadow-2xl rounded-lg">
+            <button onclick="closeLightbox()"
+                class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors pointer-events-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('reveal-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-on-scroll').forEach((el) => observer.observe(el));
+
+        // Lightbox Functions
+        function openLightbox(src) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-image');
+            img.src = src;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                document.getElementById('lightbox-image').src = "";
+            }, 300);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astra | ASTRO Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#151b23',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Logo -->
+    <a href="index.html"
+        class="absolute top-8 left-8 z-50 opacity-100 hover:opacity-80 transition-opacity duration-300">
+        <img src="assets/images/logo_astra_353844_solid.png?v=4" alt="ASTRO Systems" class="h-24 w-auto">
+    </a>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 right-0 p-6 z-50 flex gap-4">
+        <a href="astra.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">Astra</a>
+        <a href="index.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">Home</a>
+        <a href="about.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">About
+            Us</a>
+    </nav>
+
+    <section class="relative min-h-[60vh] flex flex-col items-center justify-center pt-24 pb-12">
+        <div class="absolute inset-0 z-0 opacity-20">
+            <img src="assets/images/astra/astra_side_wire.png" alt="Background Wireframe"
+                class="w-full h-full object-cover">
+        </div>
+
+
+        <div class="text-center reveal-on-scroll reveal-visible relative z-10">
+            <h1
+                class="text-[8rem] md:text-[12rem] leading-[0.85] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 font-outfit select-none drop-shadow-2xl">
+                Astra
+            </h1>
+            <p class="mt-8 text-white/50 tracking-widest uppercase text-sm font-light">Next Gen Heavy Lift Platform</p>
+
+            <a href="gallery.html"
+                class="inline-block relative z-30 mt-12 px-8 py-3 bg-white text-slate-900 rounded-full font-outfit font-bold uppercase tracking-widest hover:bg-transparent hover:text-white border border-white transition-all duration-300 cursor-pointer">
+                View Gallery
+            </a>
+        </div>
+    </section>
+
+    <!-- Telemetry Section (Moved to Top) -->
+    <section class="relative z-20 w-full bg-white text-slate-900 py-24 shadow-[0_-50px_100px_rgba(0,0,0,0.5)]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-end justify-between mb-12 border-b border-slate-200 pb-4 reveal-on-scroll">
+                <h2 class="text-3xl font-light font-outfit tracking-wide">SYSTEM <span
+                        class="font-bold text-blue-600">TELEMETRY</span></h2>
+                <div class="text-xs font-mono text-slate-500 mb-1">LIVE DATA_STREAM // V.4.0.1</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal-on-scroll">
+                <!-- Card 1 -->
+                <div
+                    class="bg-slate-50 border border-slate-200 p-8 rounded-lg group hover:border-blue-500/50 transition-all duration-300 shadow-sm">
+                    <div class="text-slate-500 text-xs font-mono mb-3 uppercase tracking-widest">Payload Capacity</div>
+                    <div class="text-5xl font-bold font-outfit text-slate-900 mb-4">250 <span
+                            class="text-lg text-slate-500 font-normal">KG</span></div>
+                    <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="w-full h-full bg-blue-500 group-hover:animate-pulse"></div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="bg-slate-50 border border-slate-200 p-8 rounded-lg group hover:border-blue-500/50 transition-all duration-300 shadow-sm">
+                    <div class="text-slate-500 text-xs font-mono mb-3 uppercase tracking-widest">Thrust Ratio</div>
+                    <div class="text-5xl font-bold font-outfit text-slate-900 mb-4">4.0 <span
+                            class="text-lg text-slate-500 font-normal">: 1</span></div>
+                    <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="w-full h-full bg-emerald-500 group-hover:animate-pulse"></div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                    class="bg-slate-50 border border-slate-200 p-8 rounded-lg group hover:border-blue-500/50 transition-all duration-300 shadow-sm">
+                    <div class="text-slate-500 text-xs font-mono mb-3 uppercase tracking-widest">Est. Range</div>
+                    <div class="text-5xl font-bold font-outfit text-slate-900 mb-4">45 <span
+                            class="text-lg text-slate-500 font-normal">MIN</span></div>
+                    <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="w-3/4 h-full bg-orange-500 group-hover:animate-pulse"></div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div
+                    class="bg-slate-50 border border-slate-200 p-8 rounded-lg group hover:border-blue-500/50 transition-all duration-300 shadow-sm">
+                    <div class="text-slate-500 text-xs font-mono mb-3 uppercase tracking-widest">Max Velocity</div>
+                    <div class="text-5xl font-bold font-outfit text-slate-900 mb-4">60 <span
+                            class="text-lg text-slate-500 font-normal">KM/H</span></div>
+                    <div class="w-full h-1 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="w-2/3 h-full bg-purple-500 group-hover:animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section (Checkerboard) -->
+    <section class="relative z-20 w-full bg-white text-slate-900">
+
+        <!-- Row 1: Image Left, Text Right -->
+        <div class="grid grid-cols-1 md:grid-cols-2 min-h-[60vh]">
+            <div class="relative h-[50vh] md:h-auto overflow-hidden border-r border-slate-200 group">
+                <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/0 transition-colors duration-500">
+                </div>
+                <img src="assets/images/astra/astra_iso.png" alt="Astra Isometric"
+                    class="w-full h-full object-cover object-center scale-90 group-hover:scale-100 transition-transform duration-700 ease-out">
+            </div>
+            <div class="flex flex-col justify-center p-12 md:p-24 bg-white">
+                <h2 class="text-4xl font-bold font-outfit mb-6 text-slate-900">360° Airfoil Body</h2>
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    The entire airframe acts as a wing, ensuring nearly 100% of the surface area contributes to lift.
+                    This distinctive design eliminates dead weight and creates a "Total-Body Lift" effect that
+                    drastically reduces drag and power consumption, allowing for mission durations that far exceed
+                    standard multi-rotor capabilities.
+                </p>
+            </div>
+        </div>
+
+        <!-- Row 2: Text Left, Image Right -->
+        <div class="grid grid-cols-1 md:grid-cols-2 min-h-[60vh]">
+            <div
+                class="flex flex-col justify-center p-12 md:p-24 bg-slate-50 order-2 md:order-1 border-t border-slate-200 md:border-t-0">
+                <h2 class="text-4xl font-bold font-outfit mb-6 text-slate-900">Gimbaled VTOL Propulsion</h2>
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    Unlike fixed-rotor systems, Astra's motors tilt 90 degrees to transition from vertical takeoff to
+                    forward flight. This vectoring capability directs high-speed airflow across the back of the
+                    airframe, artificially boosting lift and keeping the drone airborne with minimal energy expenditure.
+                </p>
+            </div>
+            <div class="relative h-[50vh] md:h-auto overflow-hidden border-l border-slate-200 group order-1 md:order-2">
+                <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/0 transition-colors duration-500">
+                </div>
+                <img src="assets/images/astra/astra_side.png" alt="Side Profile"
+                    class="w-full h-full object-contain p-12 scale-90 group-hover:scale-100 transition-transform duration-700 ease-out">
+            </div>
+        </div>
+
+        <!-- Row 3: Image Left, Text Right -->
+        <div class="grid grid-cols-1 md:grid-cols-2 min-h-[60vh]">
+            <div
+                class="relative h-[50vh] md:h-auto overflow-hidden border-r border-slate-200 group border-t border-slate-200 md:border-t-0">
+                <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/0 transition-colors duration-500">
+                </div>
+                <img src="assets/images/astra/astra_top.png" alt="Top View"
+                    class="w-full h-full object-contain p-12 scale-90 group-hover:scale-100 transition-transform duration-700 ease-out">
+            </div>
+            <div class="flex flex-col justify-center p-12 md:p-24 bg-white">
+                <h2 class="text-4xl font-bold font-outfit mb-6 text-slate-900">Helical Swarm Ascent</h2>
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    For heavy payloads, three drones link together and spiral upward in a synchronized helical path.
+                    This unique ascent strategy distributes the weight evenly and generates immediate aerodynamic lift
+                    from the airfoil bodies upon takeoff, significantly reducing the vertical load on individual motors.
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="relative z-20 w-full bg-[#020617] border-t border-slate-800 py-12 reveal-on-scroll">
+        <div class="w-full flex justify-center items-center text-slate-500 text-sm">
+            <p>&copy; 2026 ASTRO Systems. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Intersection Observer -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('reveal-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-on-scroll').forEach((el) => observer.observe(el));
+    </script>
+</body>
+
+</html>
