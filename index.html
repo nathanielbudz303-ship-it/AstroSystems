@@ -150,7 +150,7 @@
     <!-- Logo -->
     <a href="index.html"
         class="absolute top-8 left-8 z-50 opacity-100 hover:opacity-80 transition-opacity duration-300">
-        <img src="assets/images/logo1.jpg" alt="ASTRO Systems" class="h-32 w-auto">
+        <img src="assets/images/MiniLogo.png?v=1" alt="ASTRO Systems" class="h-20 w-auto">
     </a>
 
     <!-- Navigation -->
@@ -164,12 +164,10 @@
 
     <!-- Hero Section -->
     <section
-        class="relative z-10 h-screen flex flex-col items-center justify-start pt-[30vh] md:pt-[20vh] pointer-events-none">
+        class="relative z-10 h-screen flex flex-col items-center justify-start pt-[10vh] md:pt-[5vh] pointer-events-none">
         <div class="text-center mix-blend-difference pointer-events-auto reveal-on-scroll reveal-visible px-4">
-            <h1
-                class="text-5xl sm:text-7xl md:text-9xl lg:text-[12rem] leading-[0.85] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 font-outfit select-none drop-shadow-2xl">
-                ASTRO<br />Systems
-            </h1>
+            <img src="assets/images/New Template.png" alt="ASTRO Systems"
+                class="w-full max-w-3xl mx-auto drop-shadow-2xl select-none pointer-events-none">
             <p
                 class="mt-6 md:mt-8 text-white/50 tracking-widest uppercase text-[10px] sm:text-xs md:text-sm font-light">
                 Experimental Heavy Lift Platform
@@ -395,10 +393,10 @@
         loader.setDRACOLoader(dracoLoader);
 
         const pivotGroup = new THREE.Group();
-        pivotGroup.position.set(0, -3, 0); // Lowered
+        pivotGroup.position.set(0, 1, 0); // Raised spawn
         scene.add(pivotGroup);
 
-        loader.load('assets/models/HalfFoil.glb', (gltf) => {
+        loader.load('assets/models/foilfinall.glb', (gltf) => {
             const originalModel = gltf.scene;
 
             // 1. Calculations
@@ -409,38 +407,41 @@
             // 2. Material
             const metalMaterial = new THREE.MeshStandardMaterial({
                 color: 0xffffff,
-                metalness: 0.8,
-                roughness: 0.15,
-                side: THREE.DoubleSide
+                metalness: 0.7,
+                roughness: 0.02,
+                side: THREE.DoubleSide,
+                flatShading: true
             });
 
             originalModel.traverse(child => {
                 if (child.isMesh) child.material = metalMaterial;
             });
 
-            // 3. Mirror Logic
-            const mirroredModel = originalModel.clone();
-            const fullRingWrapper = new THREE.Group();
+            // 3. Center and Scale
+            const finalWrapper = new THREE.Group();
 
+            // Center the model
             originalModel.position.sub(center);
-            fullRingWrapper.add(originalModel);
-
-            mirroredModel.position.sub(center);
-            mirroredModel.scale.set(1, 1, -1);
-            fullRingWrapper.add(mirroredModel);
+            finalWrapper.add(originalModel);
 
             // 4. Stand Upright & Scale
-            // Tilted slightly to show more top surface (PI/2.5 instead of PI/2)
-            fullRingWrapper.rotation.x = Math.PI / 2;
-            const targetSize = 15;
+            // Adjust rotation to match reference (tilted ring) and FLIP X
+            // Less aggressive tilt, and 45 degree rotation instead of 90
+            finalWrapper.rotation.x = Math.PI / 2.5 + Math.PI;
+            finalWrapper.rotation.y = -Math.PI / 6; // About 30 degrees for a nice flat angle
+            // finalWrapper.rotation.z = Math.PI; // Remove Z flip, try X flip instead
+
+
+            // Increase scale to fill screen like reference
+            const targetSize = 14;
             const maxDim = Math.max(size.x, size.y, size.z);
             const scale = targetSize / maxDim;
-            fullRingWrapper.scale.setScalar(scale);
+            finalWrapper.scale.setScalar(scale);
 
             // Mark for export finding
-            fullRingWrapper.name = "Astra_Full_Ring";
+            finalWrapper.name = "Astra_Full_Ring";
 
-            pivotGroup.add(fullRingWrapper);
+            pivotGroup.add(finalWrapper);
 
         }, undefined, (err) => {
             console.error(err);
@@ -469,5 +470,3 @@
 
 
 </html>
-
-
