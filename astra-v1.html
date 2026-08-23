@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astra V1 | ASTRO Systems</title>
+    <meta name="description"
+        content="Astra V1, the first ASTRO Systems prototype: a heavy-lift drone built from consumer hardware and 3D-printed parts to prove the circular wing and show it could be deployed by hand.">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['IBM Plex Sans', 'sans-serif'],
+                        display: ['IBM Plex Sans', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#151b23',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* A measure line rather than an underline: a hairline that draws itself in
+           on arrival, a bright segment sitting on it, and a tick at the origin.
+           Hovering the title runs the bright segment out to full length. */
+        .brand-rule {
+            width: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.22);
+            transition: width 950ms cubic-bezier(0.16, 1, 0.3, 1) 250ms;
+        }
+
+        .reveal-visible .brand-rule {
+            width: 100%;
+        }
+
+        /* Zero mark */
+        .brand-rule::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: -5px;
+            width: 2px;
+            height: 11px;
+            background: #ffffff;
+        }
+
+        .brand-rule-fill {
+            position: absolute;
+            left: 0;
+            top: -1px;
+            height: 3px;
+            width: 22%;
+            background: #ffffff;
+            transition: width 700ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .brand-mark:hover .brand-rule-fill {
+            width: 100%;
+        }
+
+        /* Gallery frames: still, like the cards on the front page. Only the
+           surround responds. */
+        .shot {
+            transition: border-color 500ms;
+        }
+
+        .shot:hover {
+            border-color: #3a3a3a;
+        }
+
+        .shot-tint {
+            opacity: 0.18;
+            transition: opacity 500ms;
+        }
+
+        .shot:hover .shot-tint {
+            opacity: 0.04;
+        }
+
+        ::selection {
+            background: #3a3a3a;
+            color: #ffffff;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .reveal-on-scroll,
+            .reveal-visible {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+
+            .brand-rule,
+            .brand-rule-fill {
+                transition: none;
+            }
+
+            .brand-rule {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Logo -->
+    <a href="index.html"
+        class="absolute top-8 left-8 z-50 opacity-100 hover:opacity-80 transition-opacity duration-300">
+        <img src="assets/images/MiniLogo.png?v=1" alt="ASTRO Systems" class="h-20 w-auto">
+    </a>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 right-0 p-6 z-50 flex gap-4">
+        <a href="index.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">Home</a>
+        <a href="about.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">About
+            Us</a>
+    </nav>
+
+    <!-- ============ TITLE + COPY ============ -->
+    <section class="relative w-full pt-32 pb-16 lg:pb-20">
+        <div class="px-6 md:px-12 reveal-on-scroll">
+
+            <span class="brand-mark relative inline-block">
+                <span
+                    class="block font-mono font-medium text-4xl md:text-[52px] leading-none uppercase tracking-[0.16em] text-white">
+                    Astra V1
+                </span>
+                <span class="brand-rule absolute left-0 -bottom-4">
+                    <span class="brand-rule-fill"></span>
+                </span>
+            </span>
+
+            <p class="mt-14 max-w-3xl text-2xl md:text-[30px] font-light leading-[1.35] tracking-tight text-white/90">
+                Our first prototype, showcasing <span class="font-bold text-white">proof of concept and ease of
+                    deployment.</span>
+            </p>
+            <p class="mt-7 max-w-2xl text-[17px] font-light leading-relaxed text-white/60">
+                V1 existed to answer one question: does a circular wing carry its own weight in forward flight, on an
+                airframe we can build ourselves? Everything on it came off a shelf or off a print bed.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- ============ VIDEO ============ -->
+    <section class="relative w-full">
+        <!-- Full bleed, no frame. The footage is on pure black while the page is
+             #020617, so a plain <video> reads as a rectangle pasted on. Blending
+             it with `lighten` means every black pixel resolves to the page colour
+             and only the aircraft survives — no edge at all. -->
+        <div class="relative w-full aspect-[16/9] max-h-[78vh] overflow-hidden bg-[#020617] reveal-on-scroll">
+            <video id="v1-video"
+                class="absolute inset-0 w-full h-full object-cover mix-blend-lighten" loop muted playsinline
+                preload="none" poster="assets/video/astra-v1-poster.jpg"
+                data-src="assets/video/astra-v1.mp4"
+                aria-label="Astra V1 turning slowly, showing the airfoil ring and airframe"></video>
+
+            <!-- The aircraft runs to the top and bottom of frame, so those two
+                 edges get feathered into the page as well. -->
+            <div class="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#020617] to-transparent">
+            </div>
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#020617] to-transparent">
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="relative w-full border-t border-slate-800/60 py-20 lg:py-28">
+        <div class="px-6 md:px-12">
+
+            <div class="flex items-baseline justify-between gap-8 mb-14 reveal-on-scroll">
+                <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-white/45">Gallery</div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-white/25">Astra V1</div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                <a href="assets/images/astra/v1-gallery-5.jpg"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/v1-gallery-5.jpg" alt="The bare airfoil ring on a hall floor beneath an American flag, before the airframe went in"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+                <a href="assets/images/astra/v1-gallery-4.jpg" style="transition-delay: 70ms"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/v1-gallery-4.jpg" alt="Looking down on the hexacopter airframe seated inside the finished white airfoil ring, surrounded by tools"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+                <a href="assets/images/astra/v1-gallery-3.jpg" style="transition-delay: 140ms"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/v1-gallery-3.jpg" alt="A team member kneeling to work on the airframe inside the ring during the build"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+                <a href="assets/images/astra/v1-gallery-1.jpg"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/v1-gallery-1.jpg" alt="The airframe on grass beside a laptop running ArduPilot Mission Planner, showing the aircraft disarmed"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+                <a href="assets/images/astra/astra-v1.jpg" style="transition-delay: 70ms"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/astra-v1.jpg"
+                        alt="The finished Astra V1 sitting inside its airfoil ring beneath an American flag"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+                <a href="assets/images/astra/v1-gallery-2.jpg" style="transition-delay: 140ms"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/v1-gallery-2.jpg" alt="The airframe on wet pavement at low sun, out for a flight test"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative w-full bg-[#020617] border-t border-slate-800 py-12 reveal-on-scroll">
+        <div class="w-full flex justify-center items-center text-slate-500 text-sm">
+            <p>&copy; 2026 ASTRO Systems. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- The banner video only downloads where it earns its keep -->
+    <script>
+        (() => {
+            const v = document.getElementById('v1-video');
+            if (!v) return;
+            const wide = matchMedia('(min-width: 768px)').matches;
+            const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (!wide || still) return;   // poster frame carries it
+            v.src = v.dataset.src;
+            v.play().catch(() => { /* browser declined autoplay; poster stands */ });
+        })();
+    </script>
+
+    <!-- Intersection Observer -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('reveal-visible');
+                observer.unobserve(entry.target);
+            });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+        document.querySelectorAll('.reveal-on-scroll').forEach((el) => observer.observe(el));
+    </script>
+</body>
+
+</html>

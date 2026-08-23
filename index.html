@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap"
         rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -50,6 +50,14 @@
             outline: none;
         }
 
+        /* Text Reveal 02 — hidden until the split runs, so the text never
+           flashes in its final state first. assets/js/text-reveal.js reveals it;
+           if that script never arrives, the failsafe at the foot of this file
+           does. */
+        [data-reveal-02] {
+            visibility: hidden;
+        }
+
         /* Animation Classes */
         .reveal-on-scroll {
             opacity: 0;
@@ -81,59 +89,48 @@
             }
         }
 
-        /* The rule under ASTRO Systems: a measurement line rather than an
-           underline. It draws in when the section arrives, then a single bright
-           pass runs along it once and never repeats. */
+        /* A dimension line, the way a part is called out on a drawing: witness
+           marks at each end, a hairline running between them. It is drafting
+           notation rather than decoration — the logotype is being measured, not
+           underlined. Nothing sweeps, pulses or graduates.
+           It extends from the left when the section arrives, so the right-hand
+           witness mark rides the leading edge and lands on the last letter. */
         .brand-rule {
             width: 0;
-            height: 2px;
-            overflow: hidden;
+            height: 13px;
             background: linear-gradient(90deg,
-                    #ffffff 0%,
-                    rgba(255, 255, 255, 0.55) 62%,
-                    rgba(255, 255, 255, 0) 100%);
+                    rgba(255, 255, 255, 0.38),
+                    rgba(255, 255, 255, 0.38)) left center / 100% 1px no-repeat;
             transition: width 950ms cubic-bezier(0.16, 1, 0.3, 1) 250ms;
         }
 
-        /* Tick at the origin, like the zero mark on a scale */
-        .brand-rule::before {
+        /* Witness marks — the vertical terminators at each extent */
+        .brand-rule::before,
+        .brand-rule::after {
             content: "";
             position: absolute;
-            left: 0;
-            top: -4px;
+            top: 0;
             width: 2px;
-            height: 10px;
+            height: 13px;
             background: #ffffff;
+        }
+
+        .brand-rule::before {
+            left: 0;
+        }
+
+        .brand-rule::after {
+            right: 0;
         }
 
         .reveal-visible .brand-rule {
             width: 100%;
         }
 
-        .reveal-visible .brand-rule::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent 0%, #ffffff 50%, transparent 100%);
-            transform: translateX(-100%);
-            animation: rule-scan 1700ms cubic-bezier(0.16, 1, 0.3, 1) 1150ms 1 forwards;
-        }
-
-        @keyframes rule-scan {
-            to {
-                transform: translateX(100%);
-            }
-        }
-
         @media (prefers-reduced-motion: reduce) {
             .brand-rule {
                 width: 100%;
                 transition: none;
-            }
-
-            .reveal-visible .brand-rule::after {
-                animation: none;
-                content: none;
             }
         }
 
@@ -279,6 +276,15 @@
             outline-offset: 4px;
         }
     </style>
+
+    <!-- With scripting off, nothing can ever reveal the split text -->
+    <noscript>
+        <style>
+            [data-reveal-02] {
+                visibility: visible !important;
+            }
+        </style>
+    </noscript>
 </head>
 
 <body>
@@ -307,10 +313,6 @@
         <div class="hero-copy text-center mix-blend-difference pointer-events-none px-4">
             <img src="assets/images/New Template.png" alt="ASTRO Systems"
                 class="w-full max-w-3xl mx-auto drop-shadow-2xl select-none pointer-events-none">
-            <p
-                class="mt-6 md:mt-8 text-white/50 tracking-widest uppercase text-[10px] sm:text-xs md:text-sm font-light">
-                Experimental Heavy Lift Platform
-            </p>
         </div>
     </section>
 
@@ -326,7 +328,7 @@
              height. That is the whole trick: as a grid column its height forced
              the row, which opened a hole in the column beside it. Floating it
              lets it be large without pushing anything down. -->
-        <div class="pointer-events-none absolute z-30 hidden lg:block top-0 right-[-38vw] w-[92vw] max-w-[1600px]">
+        <div class="pointer-events-none absolute z-30 hidden lg:block top-0 right-[-10vw] w-[92vw] max-w-[1600px]">
             <div class="relative w-full aspect-[16/10]">
                 <div id="foil-canvas" class="absolute inset-0"></div>
                 <!-- Curved angle-of-attack dial, concentric with the wing -->
@@ -343,7 +345,11 @@
                             <circle r="16" fill="#020617" stroke="#ffffff" stroke-width="2.5" />
                             <circle r="4" fill="#ffffff" />
                         </g>
-                        <text id="dial-value" class="font-mono" font-size="23" fill="#ffffff">0&deg;</text>
+                        <!-- Anchored at its END: the readout sits outboard of the
+                             arc, so it has to grow AWAY from the dial. Anchored at
+                             the start it grew back across the knob. -->
+                        <text id="dial-value" class="font-mono" font-size="23" text-anchor="end"
+                            fill="#ffffff">0&deg;</text>
                     </svg>
                 </div>
             </div>
@@ -352,24 +358,36 @@
         <!-- Mission: who we are, before what we built. min-height keeps the cards
              below the floating aircraft even when the copy is short. -->
         <section class="relative w-full pt-24 pb-8 lg:min-h-[760px]">
-            <div class="px-6 md:px-12 max-w-3xl reveal-on-scroll">
+            <!-- reveal-trigger, not reveal-on-scroll: GSAP owns the opacity of
+                 every text node in here now, so the container must not fade too
+                 or the two multiply into mush. The class still earns its place —
+                 the observer stamps .reveal-visible on it, which is what draws
+                 the brand rule in. -->
+            <div class="px-6 md:px-12 max-w-3xl reveal-trigger">
                 <div class="mb-12">
                     <span class="relative inline-block">
-                        <span
-                            class="font-mono font-medium text-2xl md:text-[36px] uppercase tracking-[0.16em] text-white">ASTRO Systems</span>
-                        <span class="brand-rule absolute left-0 -bottom-3"></span>
+                        <!-- inline-block so SplitText's generated line boxes have
+                             a block container to live in without collapsing the
+                             shrink-wrap the rule measures itself against -->
+                        <span data-reveal-02="chars" data-scroll
+                            class="inline-block font-mono font-bold text-5xl md:text-[64px] leading-none uppercase tracking-[0.14em] text-white">ASTRO Systems</span>
+                        <span class="brand-rule absolute left-0 -bottom-6"></span>
                     </span>
                 </div>
-                <h2
+                <h2 data-reveal-02="words" data-scroll
                     class="font-display text-2xl md:text-[30px] font-light leading-[1.35] tracking-tight text-white/90">
                     Heavy lift systems built for <span class="font-bold">cheaper, more efficient missions.</span>
                 </h2>
-                <p class="mt-7 text-[17px] font-light leading-relaxed text-white/60">
+                <!-- Scrubbed: the body copy develops under the scroll position
+                     rather than playing a canned animation at you -->
+                <p data-reveal-02="lines" data-scroll="scrub"
+                    class="mt-7 text-[18px] font-light leading-relaxed text-white">
                     At ASTRO Systems we build heavy-lift drones from consumer hardware and 3D-printed parts. Cheap
                     iteration means we are able to bench test at the speed of our engineering, unrestricted by a slowing
                     supply chain. When something breaks, we print the replacement and fly it again.
                 </p>
-                <p class="mt-5 text-[17px] font-light leading-relaxed text-white/60">
+                <p data-reveal-02="lines" data-scroll="scrub"
+                    class="mt-5 text-[18px] font-light leading-relaxed text-white">
                     Astra is our solution to the heavy-lift problem. Built around the people who have to deploy it, the
                     platform asks for nothing a field team cannot carry, print, or replace.
                 </p>
@@ -381,11 +399,15 @@
          left aligned, the aircraft is off to the right, so they interleave -->
     <section class="relative w-full pt-4 pb-24">
 
-        <div class="flex flex-col items-start text-left px-6 md:px-12 mb-14 reveal-on-scroll">
-            <h2 class="font-display text-5xl md:text-[58px] font-light leading-none tracking-tight text-white">
+        <!-- No container reveal here at all: nothing inside depends on
+             .reveal-visible, and both children are handed to GSAP -->
+        <div class="flex flex-col items-start text-left px-6 md:px-12 mb-14">
+            <h2 data-reveal-02="chars" data-scroll
+                class="font-display text-5xl md:text-[58px] font-light leading-none tracking-tight text-white">
                 Meet <span class="font-bold">Astra</span>
             </h2>
-            <p class="mt-6 max-w-2xl text-[17px] font-light leading-relaxed text-white/65">
+            <p data-reveal-02="lines" data-scroll
+                class="mt-6 max-w-2xl text-[18px] font-light leading-relaxed text-white">
                 Astra is our heavy-lift drone platform, built around a specially optimized circular wing that
                 generates passive lift in forward flight. Because nearly the whole airframe contributes to lift, Astra
                 is able to carry more for longer on the same battery.
@@ -509,7 +531,26 @@
             rootMargin: '0px 0px -12% 0px',
             threshold: 0.05
         });
-        document.querySelectorAll('.reveal-on-scroll').forEach((el) => observer.observe(el));
+        // .reveal-trigger carries no opacity or transform of its own — it exists
+        // purely to stamp .reveal-visible for descendants that key off it (the
+        // brand rule), on blocks whose text GSAP now animates.
+        document.querySelectorAll('.reveal-on-scroll, .reveal-trigger').forEach((el) => observer.observe(el));
+    </script>
+
+    <!-- Text Reveal 02 -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="assets/js/text-reveal.js"></script>
+    <script>
+        // Last line of defence. If the CDN is blocked or slow, or fonts.ready
+        // never settles, hidden text must not stay hidden.
+        setTimeout(() => {
+            if (window.__textReveal02Ran) return;
+            document.querySelectorAll('[data-reveal-02]').forEach((el) => {
+                el.style.visibility = 'visible';
+            });
+        }, 2500);
     </script>
 
     <!-- Import Map -->

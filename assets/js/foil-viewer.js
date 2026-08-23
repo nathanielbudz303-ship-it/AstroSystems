@@ -24,7 +24,7 @@ const MAX_AOA = 30;                                // degrees each way
 // FOUR THINGS MOVE TOGETHER: this pad, the canvas aspect in index.html, the
 // dial's viewBox (which must share that aspect, or preserveAspectRatio="none"
 // stretches it), and DIAL's centre and radius.
-const VIEW = { az: 0.78, el: 0.55, pad: 1.02, shiftX: 0.0, shiftY: 0.0 };
+const VIEW = { az: 0.78, el: 0.55, pad: 0.90, shiftX: 0.0, shiftY: 0.0 };
 // Which axis the wing gimbals about. If it tilts the wrong way on screen, this
 // is a one-character change: 'x' or 'y'.
 const PITCH_AXIS = 'x';
@@ -62,13 +62,22 @@ const LEVEL_AIRFRAME = true;
 
 const MODEL = 'assets/models/astra-assembly.glb';
 
-// The dial spans the whole canvas in a 1600x1000 viewBox and its centre is the
-// aircraft's own centre, so the arc is concentric with the ring and follows it by
-// construction. The radius must clear the wing's projected half-width (~676).
+// The dial spans the whole canvas in a 1600x1000 viewBox.
+//
+// The arc is drawn to sit beside the wing rather than concentric with it. Being
+// concentric would not help anyway: the ring is a circle seen at elevation, so
+// it projects as an ellipse (roughly 2:1 here), and an ellipse's centre of
+// curvature is nowhere near its centre.
+// It sits in the empty band between the mission copy and "Meet Astra", clear of
+// both the text and the wing.
+// Span and radius are two views of one number, held against a fixed arc LENGTH
+// of ~277 units so the dial keeps its size whatever the bend:
+//   span 95 -> r 167 (harsh)   span 60 -> r 265   span 45 -> r 353 (here)
+// The knob at rest is the arc's midpoint, viewBox (75, 720).
 // Angles are degrees clockwise from +x, because SVG's y axis points down.
 // from = where -MAX_AOA sits, to = where +MAX_AOA sits. Positive is the raised
 // end of the arc, so the numbers climb as the nose climbs.
-const DIAL = { cx: 800, cy: 500, r: 560, from: 165, to: 195 };
+const DIAL = { cx: 369, cy: 525, r: 353, from: 124, to: 169 };
 const VB = { w: 1600, h: 1000 };
 
 const host = document.getElementById('foil-canvas');
@@ -290,8 +299,12 @@ function start() {
             return [((e.clientX - r.left) / r.width) * VB.w,
                     ((e.clientY - r.top) / r.height) * VB.h];
         };
+        // Grab margin either side of the arc. This is a band around a RADIUS, so
+        // on a tight arc it becomes a wide annulus covering far more of the page
+        // than the dial occupies — it has to scale with r, not stay fixed.
+        const GRAB = 55;
         const nearArc = (x, y) =>
-            Math.abs(Math.hypot(x - DIAL.cx, y - DIAL.cy) - DIAL.r) < 90;
+            Math.abs(Math.hypot(x - DIAL.cx, y - DIAL.cy) - DIAL.r) < GRAB;
 
         const fromPointer = (x, y) => {
             let deg = THREE.MathUtils.radToDeg(Math.atan2(y - DIAL.cy, x - DIAL.cx));
@@ -341,10 +354,16 @@ function start() {
             const [kx, ky] = polar(deg);
             dialKnob.setAttribute('transform', `translate(${kx} ${ky})`);
             dialFill.setAttribute('d', arcPath(degForAoA(0), deg));
-            const [vx, vy] = outward(deg, 70);
+            // Clearance between the arc and the readout. With the text anchored
+            // at its end this is the whole gap — the number grows outboard, away
+            // from the knob, so the knob's own 16-unit radius is all it has to
+            // clear.
+            const [vx, vy] = outward(deg, 46);
             dialValue.setAttribute('x', vx);
             dialValue.setAttribute('y', vy + 8);
-            dialValue.setAttribute('text-anchor', 'middle');
+            // text-anchor lives on the element in index.html and must stay "end".
+            // Centring it here made the clearance depend on label width, so
+            // "+30.0" crowded the knob while "+0.0" cleared it.
             dialValue.textContent = (aoa >= 0 ? '+' : '') + aoa.toFixed(1) + '°';
             hit.setAttribute('aria-valuenow', aoa.toFixed(1));
             hit.setAttribute('aria-valuetext', aoa.toFixed(1) + ' degrees');

@@ -1,0 +1,6 @@
+# Local Claude Code preview server config — machine-specific, not part of the site
+.claude/
+
+# OS cruft
+Thumbs.db
+.DS_Store
