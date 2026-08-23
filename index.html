@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap"
         rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -16,8 +16,9 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        outfit: ['Outfit', 'sans-serif'],
+                        sans: ['IBM Plex Sans', 'sans-serif'],
+                        display: ['IBM Plex Sans', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
                     },
                     colors: {
                         slate: {
@@ -37,7 +38,9 @@
             overflow-x: hidden;
         }
 
-        canvas {
+        /* Scoped to the hero only — a second canvas elsewhere on the page must
+           not inherit fixed-fullscreen positioning. */
+        #canvas-container canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -50,94 +53,230 @@
         /* Animation Classes */
         .reveal-on-scroll {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease-out;
+            transform: translateY(24px);
+            /* Named properties only: `all` would also catch border-color and
+               fight the card hover transition. */
+            transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .reveal-visible {
             opacity: 1;
+            transform: none;
+        }
+
+        /* The hero copy drifts up and dissolves as it leaves, so the 3D model
+           is handed off rather than guillotined by the section below. */
+        .hero-copy {
+            will-change: opacity, transform;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .reveal-on-scroll,
+            .reveal-visible {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
+
+        /* The rule under ASTRO Systems: a measurement line rather than an
+           underline. It draws in when the section arrives, then a single bright
+           pass runs along it once and never repeats. */
+        .brand-rule {
+            width: 0;
+            height: 2px;
+            overflow: hidden;
+            background: linear-gradient(90deg,
+                    #ffffff 0%,
+                    rgba(255, 255, 255, 0.55) 62%,
+                    rgba(255, 255, 255, 0) 100%);
+            transition: width 950ms cubic-bezier(0.16, 1, 0.3, 1) 250ms;
+        }
+
+        /* Tick at the origin, like the zero mark on a scale */
+        .brand-rule::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: -4px;
+            width: 2px;
+            height: 10px;
+            background: #ffffff;
+        }
+
+        .reveal-visible .brand-rule {
+            width: 100%;
+        }
+
+        .reveal-visible .brand-rule::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, #ffffff 50%, transparent 100%);
+            transform: translateX(-100%);
+            animation: rule-scan 1700ms cubic-bezier(0.16, 1, 0.3, 1) 1150ms 1 forwards;
+        }
+
+        @keyframes rule-scan {
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .brand-rule {
+                width: 100%;
+                transition: none;
+            }
+
+            .reveal-visible .brand-rule::after {
+                animation: none;
+                content: none;
+            }
+        }
+
+        /* Version cards */
+        .vcard {
+            transition: border-color 500ms;
+            /* No browser-default blue: kills the mobile tap highlight and the
+               drag-to-select highlight over the caption. */
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        /* Neutral grey, not slate — slate is blue-tinted and reads blue on black. */
+        .vcard:hover {
+            border-color: #3a3a3a;
+        }
+
+        /* Mouse clicks leave no ring; keyboard users still get a clear one. */
+        .vcard:focus {
+            outline: none;
+        }
+
+        .vcard:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: -2px;
+        }
+
+        ::selection {
+            background: #3a3a3a;
+            color: #ffffff;
+        }
+
+        /* V3 has no page behind it yet, so its card is not a link and must not
+           pretend to be one. */
+        .vcard-soon {
+            cursor: default;
+        }
+
+        /* Photo scrim. This opacity is the dial: raise it to sink the photo
+           further, lower it to let more of the image through. */
+        .vcard-tint {
+            opacity: 0.20;
+            transition: opacity 500ms;
+        }
+
+        /* V3 has no page yet, so hovering covers the photo instead of promising
+           an action. No movement on the panel itself — only the text drifts. */
+        .soon-panel {
+            opacity: 0;
+            transition: opacity 500ms;
+        }
+
+        .vcard-soon:hover .soon-panel {
+            opacity: 1;
+        }
+
+        .soon-text {
+            transform: translateY(8px);
+            transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .vcard-soon:hover .soon-text {
             transform: translateY(0);
         }
 
-        /* Motor Animations */
-        .spin-cw {
-            animation: spin 0.6s linear infinite;
-        }
-
-        .spin-ccw {
-            animation: spin-reverse 0.6s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
+        @media (prefers-reduced-motion: reduce) {
+            .soon-text {
+                transform: none;
+                transition: none;
             }
         }
 
-        @keyframes spin-reverse {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(-360deg);
-            }
+        .vcard-title {
+            letter-spacing: 0;
+            transition: letter-spacing 600ms cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Positioning */
-        .motor-wrapper {
-            position: absolute;
-            width: 3.5rem;
-            height: 3.5rem;
-            z-index: 30;
-            transform: translate(-50%, -50%);
+        .vcard:hover .vcard-title {
+            letter-spacing: 0.05em;
         }
 
-        .pos-1 {
-            top: 15%;
-            left: 50%;
+        .vcard-cta {
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 400ms, transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .pos-2 {
-            top: 32.5%;
-            left: 80.3%;
+        .vcard:hover .vcard-cta {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .pos-3 {
-            top: 67.5%;
-            left: 80.3%;
+        /* Arrow draws itself in: shaft first, then the head lands */
+        .vcard-arrow {
+            color: rgba(255, 255, 255, 0.4);
+            transition: color 500ms;
         }
 
-        .pos-4 {
-            top: 85%;
-            left: 50%;
+        .vcard:hover .vcard-arrow {
+            color: #ffffff;
         }
 
-        .pos-5 {
-            top: 67.5%;
-            left: 19.7%;
+        .vcard-arrow .shaft {
+            stroke-dasharray: 15;
+            stroke-dashoffset: 15;
+            transition: stroke-dashoffset 550ms cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .pos-6 {
-            top: 32.5%;
-            left: 19.7%;
+        .vcard-arrow .head {
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: opacity 300ms 200ms, transform 450ms 150ms cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .spoke {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0.375rem;
-            height: 9rem;
-            background-color: #94a3b8;
-            transform-origin: top center;
-            border-radius: 9999px;
-            translate: -50% 0;
-            z-index: 10;
+        .vcard:hover .vcard-arrow .shaft {
+            stroke-dashoffset: 0;
+        }
+
+        .vcard:hover .vcard-arrow .head {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Foil viewer slider */
+        .foil-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #ffffff;
+            cursor: pointer;
+        }
+
+        .foil-range::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border: 0;
+            background: #ffffff;
+            cursor: pointer;
+        }
+
+        .foil-range:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: 4px;
         }
     </style>
 </head>
@@ -165,7 +304,7 @@
     <!-- Hero Section -->
     <section
         class="relative z-10 h-screen flex flex-col items-center justify-start pt-[10vh] md:pt-[5vh] pointer-events-none">
-        <div class="text-center mix-blend-difference pointer-events-none reveal-on-scroll reveal-visible px-4">
+        <div class="hero-copy text-center mix-blend-difference pointer-events-none px-4">
             <img src="assets/images/New Template.png" alt="ASTRO Systems"
                 class="w-full max-w-3xl mx-auto drop-shadow-2xl select-none pointer-events-none">
             <p
@@ -175,134 +314,176 @@
         </div>
     </section>
 
-    <!-- RESTORED CONTENT SECTION -->
-    <section
-        class="relative z-20 w-full bg-white text-slate-900 min-h-screen pb-52 mt-[20vh] shadow-[0_-50px_100px_rgba(0,0,0,0.5)]">
-        <div class="max-w-4xl mx-auto px-6 pt-32 flex flex-col items-center text-center">
+    <!-- Hand-off: the fixed canvas dissolves into the section instead of being
+         cut off by it -->
+    <div class="relative z-20 h-[30vh] bg-gradient-to-b from-transparent to-[#020617] pointer-events-none"></div>
 
-            <div class="mb-24 space-y-8 w-full">
-                <div class="reveal-on-scroll flex flex-col items-center">
-                    <h2 class="text-4xl md:text-6xl font-light tracking-tight font-outfit text-slate-950 mb-6">
-                        Meet <span class="font-bold">Astra</span>
-                    </h2>
-                    <p class="text-lg md:text-xl text-slate-600 font-light max-w-2xl border-t border-slate-200 pt-6">
-                        Our experimental entry for the <span class="font-medium text-slate-900">DARPA Heavy Lift
-                            Challenge</span>.
-                    </p>
-                    <div class="pt-8">
-                        <a href="astra.html"
-                            class="inline-block px-8 py-3 bg-slate-900 text-white rounded-full font-light tracking-wide hover:bg-slate-800 transition-all duration-300">Learn
-                            More</a>
-                    </div>
-                </div>
+    <!-- Mission and versions share one backdrop so the aircraft can float across
+         both: the fixed hero canvas sits at z-0 and would show through any seam -->
+    <div class="relative z-20 bg-[#020617]">
 
-                <div class="space-y-8 text-slate-700 max-w-3xl mx-auto text-lg leading-relaxed font-inter">
-                    <p class="reveal-on-scroll" style="transition-delay: 100ms;">
-                        The ASTRA System consists of three lightweight heavy-lift drones capable of achieving a
-                        groundbreaking 4:1 payload-to-weight ratio.
-                        This is made possible by a unique 360-degree airfoil design working in concert with a gimbaled
-                        VTOL propulsion system.
-                    </p>
-                    <p class="reveal-on-scroll" style="transition-delay: 200ms;">
-                        The most innovative part of Astra is its body. In a normal drone, the frame is just dead weight.
-                        In Astra, the entire body is shaped like a high-tech wing, using advanced topology to ensure
-                        that nearly 100% of the drone’s surface area contributes to lift.
-                    </p>
-                    <p class="reveal-on-scroll" style="transition-delay: 300ms;">
-                        Once at cruising altitude, the motors tilt 90 degrees for forward flight. This reorientation
-                        directs high-speed airflow
-                        across the back of the airframe, artificially boosting lift and keeping the drone airborne with
-                        minimal effort.
-                    </p>
-                    <p class="reveal-on-scroll" style="transition-delay: 400ms;">
-                        This total-body lift approach drastically reduces battery consumption, allowing for extended
-                        mission times while carrying heavy equipment.
-                        The race ends with a synchronized descent to safely drop the payload before detaching to return
-                        at high speeds.
-                    </p>
+        <!-- The aircraft is absolutely positioned, so it contributes NO layout
+             height. That is the whole trick: as a grid column its height forced
+             the row, which opened a hole in the column beside it. Floating it
+             lets it be large without pushing anything down. -->
+        <div class="pointer-events-none absolute z-30 hidden lg:block top-0 right-[-38vw] w-[92vw] max-w-[1600px]">
+            <div class="relative w-full aspect-[16/10]">
+                <div id="foil-canvas" class="absolute inset-0"></div>
+                <!-- Curved angle-of-attack dial, concentric with the wing -->
+                <div id="foil-dial-box" class="pointer-events-auto absolute inset-0">
+                    <svg id="foil-dial" viewBox="0 0 1600 1000" preserveAspectRatio="none"
+                        class="w-full h-full overflow-visible">
+                        <path id="dial-track" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2.5" />
+                        <path id="dial-fill" fill="none" stroke="#ffffff" stroke-width="2.5" />
+                        <path id="dial-hit" fill="none" stroke="transparent" stroke-width="70"
+                            class="cursor-grab focus:outline-none" style="pointer-events: stroke" tabindex="0"
+                            role="slider" aria-label="Angle of attack" aria-valuemin="-30" aria-valuemax="30"
+                            aria-valuenow="0" aria-valuetext="0 degrees" />
+                        <g id="dial-knob">
+                            <circle r="16" fill="#020617" stroke="#ffffff" stroke-width="2.5" />
+                            <circle r="4" fill="#ffffff" />
+                        </g>
+                        <text id="dial-value" class="font-mono" font-size="23" fill="#ffffff">0&deg;</text>
+                    </svg>
                 </div>
             </div>
+        </div>
 
-            <!-- Drone Visual (CSS Animation) -->
-            <div class="flex flex-col items-center justify-center py-12 reveal-on-scroll">
-                <div class="relative w-[300px] md:w-[400px] h-[300px] md:h-[400px] flex items-center justify-center">
-                    <div class="absolute inset-0 border border-slate-300 rounded-full scale-110 opacity-50"></div>
-                    <div
-                        class="absolute inset-0 border-[24px] border-slate-900 rounded-full shadow-2xl bg-slate-100/10 backdrop-blur-[2px] z-0">
+        <!-- Mission: who we are, before what we built. min-height keeps the cards
+             below the floating aircraft even when the copy is short. -->
+        <section class="relative w-full pt-24 pb-8 lg:min-h-[760px]">
+            <div class="px-6 md:px-12 max-w-3xl reveal-on-scroll">
+                <div class="mb-12">
+                    <span class="relative inline-block">
+                        <span
+                            class="font-mono font-medium text-2xl md:text-[36px] uppercase tracking-[0.16em] text-white">ASTRO Systems</span>
+                        <span class="brand-rule absolute left-0 -bottom-3"></span>
+                    </span>
+                </div>
+                <h2
+                    class="font-display text-2xl md:text-[30px] font-light leading-[1.35] tracking-tight text-white/90">
+                    Heavy lift systems built for <span class="font-bold">cheaper, more efficient missions.</span>
+                </h2>
+                <p class="mt-7 text-[17px] font-light leading-relaxed text-white/60">
+                    At ASTRO Systems we build heavy-lift drones from consumer hardware and 3D-printed parts. Cheap
+                    iteration means we are able to bench test at the speed of our engineering, unrestricted by a slowing
+                    supply chain. When something breaks, we print the replacement and fly it again.
+                </p>
+                <p class="mt-5 text-[17px] font-light leading-relaxed text-white/60">
+                    Astra is our solution to the heavy-lift problem. Built around the people who have to deploy it, the
+                    platform asks for nothing a field team cannot carry, print, or replace.
+                </p>
+            </div>
+        </section>
+
+    <!-- Astra Versions -->
+    <!-- Pulled up into the empty left column beside the aircraft: the heading is
+         left aligned, the aircraft is off to the right, so they interleave -->
+    <section class="relative w-full pt-4 pb-24">
+
+        <div class="flex flex-col items-start text-left px-6 md:px-12 mb-14 reveal-on-scroll">
+            <h2 class="font-display text-5xl md:text-[58px] font-light leading-none tracking-tight text-white">
+                Meet <span class="font-bold">Astra</span>
+            </h2>
+            <p class="mt-6 max-w-2xl text-[17px] font-light leading-relaxed text-white/65">
+                Astra is our heavy-lift drone platform, built around a specially optimized circular wing that
+                generates passive lift in forward flight. Because nearly the whole airframe contributes to lift, Astra
+                is able to carry more for longer on the same battery.
+            </p>
+        </div>
+
+        <!-- Wide but not edge-to-edge: the band is inset from both screen edges
+             by the same amount the heading is, so the two share a left edge -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 px-6 md:px-12">
+            <a href="astra-v1.html" style="transition-delay: 0ms"
+                class="vcard reveal-on-scroll relative block overflow-hidden bg-black border border-black">
+                <div class="relative w-full aspect-[3/4] overflow-hidden bg-[#0a1120]">
+                    <img src="assets/images/astra/astra-v1.jpg"
+                        alt="The Astra V1 prototype resting inside its white airfoil ring, beneath an American flag"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <!-- Holds the photo back so the caption always has something
+                         to sit on, whatever the real image turns out to be -->
+                    <div class="vcard-tint absolute inset-0 bg-black"></div>
+                </div>
+                <!-- Caption rides the foot of the photo under a scrim, so the
+                     image is the whole card -->
+                <div
+                    class="absolute inset-x-0 bottom-0 px-6 pt-12 pb-[18px] flex flex-col gap-[5px] bg-gradient-to-t from-black/95 via-black/75 to-transparent">
+                    <div class="vcard-title font-display font-bold text-[21px] leading-[1.15] text-white">Astra V1</div>
+                    <div class="text-[13px] font-light leading-[1.45] text-white/75">Our first prototype, showcasing proof of concept and ease of deployment.</div>
+                    <div class="flex items-center justify-between gap-3 h-[18px] mt-px">
+                        <span
+                            class="vcard-cta font-mono text-[10px] leading-[18px] uppercase tracking-[0.14em] text-white whitespace-nowrap">Explore
+                            V1</span>
+                        <svg class="vcard-arrow shrink-0" width="23" height="23" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path class="shaft" d="M3 12h15"></path>
+                            <path class="head" d="M13 7l5 5-5 5"></path>
+                        </svg>
                     </div>
-                    <div class="relative w-full h-full rounded-full flex items-center justify-center z-10">
-                        <div
-                            class="absolute top-1/2 left-1/2 w-16 h-16 bg-slate-900 rounded-full z-20 shadow-lg border-2 border-slate-700 -translate-x-1/2 -translate-y-1/2">
-                        </div>
-                        <div class="spoke" style="transform: rotate(180deg);"></div>
-                        <div class="spoke" style="transform: rotate(240deg);"></div>
-                        <div class="spoke" style="transform: rotate(300deg);"></div>
-                        <div class="spoke" style="transform: rotate(0deg);"></div>
-                        <div class="spoke" style="transform: rotate(60deg);"></div>
-                        <div class="spoke" style="transform: rotate(120deg);"></div>
+                </div>
+            </a>
 
-                        <!-- Motors -->
-                        <div class="motor-wrapper pos-1">
-                            <div
-                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-cw shadow-lg">
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
-                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
-                            </div>
-                        </div>
-                        <div class="motor-wrapper pos-2">
-                            <div
-                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-ccw shadow-lg">
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
-                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
-                            </div>
-                        </div>
-                        <div class="motor-wrapper pos-3">
-                            <div
-                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-cw shadow-lg">
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
-                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
-                            </div>
-                        </div>
-                        <div class="motor-wrapper pos-4">
-                            <div
-                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-ccw shadow-lg">
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
-                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
-                            </div>
-                        </div>
-                        <div class="motor-wrapper pos-5">
-                            <div
-                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-cw shadow-lg">
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
-                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
-                            </div>
-                        </div>
-                        <div class="motor-wrapper pos-6">
-                            <div
-                                class="w-full h-full bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-600 spin-ccw shadow-lg">
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-60"></div>
-                                <div class="absolute w-full h-1 bg-slate-400/90 rounded-full rotate-120"></div>
-                                <div class="w-5 h-5 bg-white rounded-full z-10 border border-slate-300"></div>
-                            </div>
+            <a href="astra-v2.html" style="transition-delay: 90ms"
+                class="vcard reveal-on-scroll relative block overflow-hidden bg-black border border-black">
+                <div class="relative w-full aspect-[3/4] overflow-hidden bg-[#0a1120]">
+                    <img src="assets/images/astra/placeholder-v2.jpg" alt="Astra V2"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <!-- Holds the photo back so the caption always has something
+                         to sit on, whatever the real image turns out to be -->
+                    <div class="vcard-tint absolute inset-0 bg-black"></div>
+                </div>
+                <!-- Caption rides the foot of the photo under a scrim, so the
+                     image is the whole card -->
+                <div
+                    class="absolute inset-x-0 bottom-0 px-6 pt-12 pb-[18px] flex flex-col gap-[5px] bg-gradient-to-t from-black/95 via-black/75 to-transparent">
+                    <div class="vcard-title font-display font-bold text-[21px] leading-[1.15] text-white">Astra V2</div>
+                    <div class="text-[13px] font-light leading-[1.45] text-white/75">Our entry into the DARPA Heavy Lift Challenge, improving on scale and manufacturing.</div>
+                    <div class="flex items-center justify-between gap-3 h-[18px] mt-px">
+                        <span
+                            class="vcard-cta font-mono text-[10px] leading-[18px] uppercase tracking-[0.14em] text-white whitespace-nowrap">Explore
+                            V2</span>
+                        <svg class="vcard-arrow shrink-0" width="23" height="23" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path class="shaft" d="M3 12h15"></path>
+                            <path class="head" d="M13 7l5 5-5 5"></path>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Not a link: V3 has no page yet, so this must not be clickable -->
+            <div style="transition-delay: 180ms"
+                class="vcard vcard-soon reveal-on-scroll relative block overflow-hidden bg-black border border-black">
+                <div class="relative w-full aspect-[3/4] overflow-hidden bg-[#0a1120]">
+                    <img src="assets/images/astra/placeholder-v3.jpg" alt="Astra V3"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <!-- Holds the photo back so the caption always has something
+                         to sit on, whatever the real image turns out to be -->
+                    <div class="vcard-tint absolute inset-0 bg-black"></div>
+                    <!-- Covers the photo on hover. Set on the caption's own left
+                         inset rather than centred, so it reads as part of the card
+                         rather than a banner dropped over it. -->
+                    <div class="soon-panel absolute inset-0 z-[2] bg-black/90">
+                        <div class="soon-text absolute left-6 top-7">
+                            <span
+                                class="block font-mono text-[11px] uppercase tracking-[0.22em] text-white">Coming soon</span>
+                            <span
+                                class="mt-3 block font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">Astra V3 &middot; in development</span>
                         </div>
                     </div>
                 </div>
-                <p class="mt-8 text-slate-500 font-light text-sm tracking-widest uppercase font-mono">TOP DOWN VIEW / /
-                    2D MODEL</p>
+                <!-- Caption rides the foot of the photo under a scrim, so the
+                     image is the whole card -->
+                <div
+                    class="absolute inset-x-0 bottom-0 px-6 pt-12 pb-[18px] flex flex-col gap-[5px] bg-gradient-to-t from-black/95 via-black/75 to-transparent">
+                    <div class="vcard-title font-display font-bold text-[21px] leading-[1.15] text-white">Astra V3</div>
+                    <div class="text-[13px] font-light leading-[1.45] text-white/75">[What comes next &mdash; a line or two once the design settles.]</div>
+                </div>
             </div>
         </div>
     </section>
+    </div>
 
     <!-- Footer -->
     <footer class="relative z-20 w-full bg-[#020617] border-t border-slate-800 py-12 reveal-on-scroll">
@@ -315,9 +496,19 @@
     <script>
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('reveal-visible');
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('reveal-visible');
+                // Reveal is one-way; stop watching so the callback isn't run for
+                // the rest of the session.
+                observer.unobserve(entry.target);
             });
-        }, { threshold: 0.1 });
+        }, {
+            // Start the reveal a little before the element reaches the fold, so
+            // it has finished by the time it is properly in view rather than
+            // animating in front of you.
+            rootMargin: '0px 0px -12% 0px',
+            threshold: 0.05
+        });
         document.querySelectorAll('.reveal-on-scroll').forEach((el) => observer.observe(el));
     </script>
 
@@ -447,10 +638,68 @@
             console.error(err);
         });
 
+        // --- SCROLL RESPONSE ---
+        // The model used to sit perfectly still while the page slid over it, so
+        // it read as being buried rather than leaving. Now it recedes, tilts and
+        // dissolves as the hero scrolls away.
+        //
+        // Raw scroll position is jittery, so it is never applied directly: the
+        // scroll listener only records a TARGET, and the render loop eases the
+        // rendered value toward it a fraction at a time. That decoupling is what
+        // makes it feel weighted instead of glued to the wheel.
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const EASE = 0.075;         // lower = heavier, more cinematic
+        let scrollTarget = 0;       // 0 at the top, 1 once the hero has gone
+        let scrollEased = 0;
+        let scrollApplied = -1;     // last value written to the DOM
+
+        function readScroll() {
+            // Normalise against the hero's own height: the whole move happens
+            // across the first screenful, which is the only part the model shares
+            // with the content.
+            scrollTarget = Math.min(window.scrollY / window.innerHeight, 1);
+        }
+        readScroll();
+        window.addEventListener('scroll', readScroll, { passive: true });
+        window.addEventListener('resize', readScroll);
+
+        const heroCopy = document.querySelector('.hero-copy');
+
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
+
+            // Idle rotation continues regardless — it is the model's own life,
+            // not a scroll effect.
             pivotGroup.rotation.y += 0.002;
+
+            if (reduceMotion.matches) {
+                scrollEased = 0;
+            } else {
+                scrollEased += (scrollTarget - scrollEased) * EASE;
+            }
+
+            // Sink, tip away and shrink slightly, so the model exits under its
+            // own power rather than being covered up.
+            pivotGroup.position.y = 1 - scrollEased * 2.6;
+            pivotGroup.rotation.x = scrollEased * 0.42;
+            pivotGroup.scale.setScalar(1 - scrollEased * 0.22);
+
+            // Style writes touch the DOM, so only make them when the value has
+            // actually moved — otherwise this forces a style recalc 60x a second
+            // for the whole time the page sits still.
+            if (Math.abs(scrollEased - scrollApplied) > 0.001) {
+                scrollApplied = scrollEased;
+                renderer.domElement.style.opacity = String(1 - scrollEased * 0.9);
+
+                // The hero wordmark drifts up faster than the page, which is what
+                // sells the depth between it and the model behind it.
+                if (heroCopy) {
+                    heroCopy.style.transform = `translateY(${scrollEased * -60}px)`;
+                    heroCopy.style.opacity = String(Math.max(1 - scrollEased * 1.2, 0));
+                }
+            }
+
             renderer.render(scene, camera);
         }
 
@@ -466,6 +715,8 @@
 
         animate();
     </script>
+    <!-- Interactive half-foil viewer -->
+    <script type="module" src="assets/js/foil-viewer.js"></script>
 </body>
 
 
