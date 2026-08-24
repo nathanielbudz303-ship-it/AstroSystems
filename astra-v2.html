@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astra V2 | ASTRO Systems</title>
+    <meta name="description"
+        content="Astra V2, the ASTRO Systems entry to the DARPA Heavy Lift Challenge: the circular wing carried on a larger airframe, built to pack down, travel, and go back together by hand on a competition field.">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['IBM Plex Sans', 'sans-serif'],
+                        display: ['IBM Plex Sans', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#151b23',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Dimension line, the same one the front page uses: witness marks at each
+           end, a hairline between them. Drafting notation, not an underline. */
+        .brand-rule {
+            width: 0;
+            height: 13px;
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0.38),
+                    rgba(255, 255, 255, 0.38)) left center / 100% 1px no-repeat;
+            transition: width 950ms cubic-bezier(0.16, 1, 0.3, 1) 250ms;
+        }
+
+        .brand-rule::before,
+        .brand-rule::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 13px;
+            background: #ffffff;
+        }
+
+        .brand-rule::before {
+            left: 0;
+        }
+
+        .brand-rule::after {
+            right: 0;
+        }
+
+        .reveal-visible .brand-rule {
+            width: 100%;
+        }
+
+        /* Gallery frames: still, like the cards on the front page. Only the
+           surround responds. */
+        .shot {
+            transition: border-color 500ms;
+        }
+
+        .shot:hover {
+            border-color: #3a3a3a;
+        }
+
+        .shot-tint {
+            opacity: 0.18;
+            transition: opacity 500ms;
+        }
+
+        .shot:hover .shot-tint {
+            opacity: 0.04;
+        }
+
+        ::selection {
+            background: #3a3a3a;
+            color: #ffffff;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .reveal-on-scroll,
+            .reveal-visible {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+
+            .brand-rule {
+                width: 100%;
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Logo -->
+    <a href="index.html"
+        class="absolute top-8 left-8 z-50 opacity-100 hover:opacity-80 transition-opacity duration-300">
+        <img src="assets/images/MiniLogo.png?v=1" alt="ASTRO Systems" class="h-20 w-auto">
+    </a>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 right-0 p-6 z-50 flex gap-4">
+        <a href="index.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">Home</a>
+        <a href="about.html"
+            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">About
+            Us</a>
+    </nav>
+
+    <!-- ============ TITLE + COPY ============ -->
+    <section class="relative w-full pt-32 pb-16 lg:pb-20">
+        <div class="px-6 md:px-12 reveal-on-scroll">
+
+            <span class="brand-mark relative inline-block">
+                <span
+                    class="block font-mono font-medium text-4xl md:text-[52px] leading-none uppercase tracking-[0.16em] text-white">
+                    Astra V2
+                </span>
+                <span class="brand-rule absolute left-0 -bottom-4"></span>
+            </span>
+
+            <p class="mt-14 max-w-3xl text-2xl md:text-[30px] font-light leading-[1.35] tracking-tight text-white/90">
+                Our entry into the DARPA Heavy Lift Challenge, <span class="font-bold text-white">improving on scale and
+                    manufacturing.</span>
+            </p>
+            <p class="mt-7 max-w-2xl text-[18px] font-light leading-relaxed text-white">
+                V2 took the circular wing to a larger airframe and out of the lab. Everything on it had to pack down,
+                travel, and go back together by hand on a competition field &mdash; a different problem from making it
+                fly.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- ============ BANNER ============ -->
+    <section class="relative w-full">
+        <!-- Full bleed. Unlike the V1 banner this is a photograph, not footage on
+             black, so it cannot be blended into the page — the top and bottom
+             edges are feathered instead so it does not read as a rectangle
+             pasted onto the background. -->
+        <div class="relative w-full aspect-[16/9] max-h-[78vh] overflow-hidden bg-[#020617] reveal-on-scroll">
+            <img src="assets/images/astra/v2-banner.jpg"
+                alt="The ASTRO Systems team with service members at the DARPA Heavy Lift Challenge"
+                class="absolute inset-0 w-full h-full object-cover">
+            <div class="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#020617] to-transparent">
+            </div>
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#020617] to-transparent">
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="relative w-full border-t border-slate-800/60 py-20 lg:py-28">
+        <div class="px-6 md:px-12">
+
+            <div class="flex items-baseline justify-between gap-8 mb-14 reveal-on-scroll">
+                <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-white/45">Gallery</div>
+                <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-white/25">Astra V2</div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                <a href="assets/images/astra/v2-gallery-1.jpg"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/v2-gallery-1.jpg"
+                        alt="The team's pit under the competition tent, the Astra wing laid out across the table"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+                <a href="assets/images/astra/v2-gallery-2.jpg" style="transition-delay: 70ms"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/v2-gallery-2.jpg"
+                        alt="A team member checking the V2 airframe on the airfield, a hangar behind him"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+                <a href="assets/images/astra/v2-gallery-3.jpg" style="transition-delay: 140ms"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/v2-gallery-3.jpg"
+                        alt="Two team members kneeling to set the aircraft up on the grass before a flight"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+                <a href="assets/images/astra/v2-gallery-4.jpg"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/v2-gallery-4.jpg"
+                        alt="A remove-before-flight tag hanging off the airframe beside a laptop running Mission Planner"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+                <a href="assets/images/astra/astra-v2.jpg" style="transition-delay: 70ms"
+                    class="shot relative block aspect-[3/4] overflow-hidden border border-black bg-[#0a1120] reveal-on-scroll">
+                    <img src="assets/images/astra/astra-v2.jpg"
+                        alt="Astra V2 out on the grass, an Air Force hangar across the field behind it"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <span class="shot-tint absolute inset-0 bg-black"></span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative w-full bg-[#020617] border-t border-slate-800 py-12 reveal-on-scroll">
+        <div class="w-full flex justify-center items-center text-slate-500 text-sm">
+            <p>&copy; 2026 ASTRO Systems. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Intersection Observer -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('reveal-visible');
+                observer.unobserve(entry.target);
+            });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+        document.querySelectorAll('.reveal-on-scroll').forEach((el) => observer.observe(el));
+    </script>
+</body>
+
+</html>
