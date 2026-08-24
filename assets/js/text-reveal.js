@@ -27,7 +27,7 @@
     // revealed is worse than text that never animates, so bail loudly-but-safely.
     if (!gsap || !SplitText || !ScrollTrigger) {
         showEverything();
-        console.warn('[text-reveal] GSAP, SplitText or ScrollTrigger did not load — text shown unanimated.');
+        console.warn('[text-reveal] GSAP, SplitText or ScrollTrigger did not load. Text shown unanimated.');
         return;
     }
 

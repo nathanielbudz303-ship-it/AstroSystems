@@ -20,7 +20,7 @@ const MAX_AOA = 30;                                // degrees each way
 //   nothing clips when      pad >= 1 + 2 * shiftY
 // At shiftY 0 the largest uncropped model is exactly the canvas height. The canvas
 // no longer has to match the copy beside it, because it is absolutely positioned
-// and drives no layout height — so it can be as tall as the page allows.
+// and drives no layout height, so it can be as tall as the page allows.
 // FOUR THINGS MOVE TOGETHER: this pad, the canvas aspect in index.html, the
 // dial's viewBox (which must share that aspect, or preserveAspectRatio="none"
 // stretches it), and DIAL's centre and radius.
@@ -31,14 +31,14 @@ const PITCH_AXIS = 'x';
 
 // Which way a positive angle of attack turns the wing. If the nose drops when
 // the readout climbs, flip this to 1. It is the ONLY thing that controls the
-// direction of travel — the dial's own numbering is fixed above.
+// direction of travel. The dial's own numbering is fixed above.
 const PITCH_SIGN = -1;
 
 // Where the nose sits in the model's own plan view, in degrees, measured
 // anticlockwise from +X. This is the ONE number to change if the wrong edge of
 // the wing is rising: everything below is derived from it, so the nose is always
 // both the part facing the page and the part that lifts.
-// Established from the model: 13 parts sit at bearing 90 and 13 at 270 — the
+// Established from the model: 13 parts sit at bearing 90 and 13 at 270, the
 // gimbal servos and bearings at both ends of the hinge. So the hinge runs along
 // Y, which puts the nose on X.
 const FRONT_BEARING = 0;
@@ -47,7 +47,7 @@ const FRONT_BEARING = 0;
 const FACE_ON_SCREEN = 180;
 
 // Screen directions depend on where the camera is standing, so the camera's own
-// azimuth has to be folded in — without it, "face left" only held for one
+// azimuth has to be folded in. Without it, "face left" only held for one
 // particular camera angle.
 const MODEL_YAW = THREE.MathUtils.degToRad(
     FACE_ON_SCREEN + THREE.MathUtils.radToDeg(VIEW.az) - FRONT_BEARING
@@ -87,7 +87,7 @@ const hint = document.getElementById('foil-hint');
 
 // Below lg the container is display:none, so nothing this builds could ever be
 // seen. The IntersectionObserver inside already keeps the model and the render
-// loop from running — a hidden element never intersects — but start() would
+// loop from running, since a hidden element never intersects, but start() would
 // still spin up a WebGL context and generate an environment map for nobody.
 // Bail before any of that, and boot if the window is later widened past lg.
 const DESKTOP = window.matchMedia('(min-width: 1024px)');
@@ -294,7 +294,7 @@ function start() {
         document.getElementById('dial-hit').setAttribute('d', arcPath(DIAL.from, DIAL.to));
 
         // Push a point further out along its own radius: the arc centre is up and
-        // right, so "outward" is down and left — clear of the wing.
+        // right, so "outward" is down and left, clear of the wing.
         const outward = (deg, by) => {
             const t = THREE.MathUtils.degToRad(deg);
             const [x, y] = polar(deg);
@@ -314,7 +314,7 @@ function start() {
         };
         // Grab margin either side of the arc. This is a band around a RADIUS, so
         // on a tight arc it becomes a wide annulus covering far more of the page
-        // than the dial occupies — it has to scale with r, not stay fixed.
+        // than the dial occupies, so it has to scale with r, not stay fixed.
         const GRAB = 55;
         const nearArc = (x, y) =>
             Math.abs(Math.hypot(x - DIAL.cx, y - DIAL.cy) - DIAL.r) < GRAB;
@@ -368,7 +368,7 @@ function start() {
             dialKnob.setAttribute('transform', `translate(${kx} ${ky})`);
             dialFill.setAttribute('d', arcPath(degForAoA(0), deg));
             // Clearance between the arc and the readout. With the text anchored
-            // at its end this is the whole gap — the number grows outboard, away
+            // at its end this is the whole gap. The number grows outboard, away
             // from the knob, so the knob's own 16-unit radius is all it has to
             // clear.
             const [vx, vy] = outward(deg, 46);

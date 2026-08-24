@@ -172,7 +172,7 @@
         <!-- Full bleed, no frame. The footage is on pure black while the page is
              #020617, so a plain <video> reads as a rectangle pasted on. Blending
              it with `lighten` means every black pixel resolves to the page colour
-             and only the aircraft survives — no edge at all. -->
+             and only the aircraft survives, with no edge at all. -->
         <div class="relative w-full aspect-[16/9] max-h-[78vh] overflow-hidden bg-[#020617] reveal-on-scroll">
             <video id="v1-video"
                 class="absolute inset-0 w-full h-full object-cover mix-blend-lighten" loop muted playsinline
@@ -192,11 +192,6 @@
     <!-- ============ GALLERY ============ -->
     <section class="relative w-full border-t border-slate-800/60 py-20 lg:py-28">
         <div class="px-6 md:px-12">
-
-            <div class="flex items-baseline justify-between gap-8 mb-14 reveal-on-scroll">
-                <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-white">Gallery</div>
-                <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-white">Astra V1</div>
-            </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 

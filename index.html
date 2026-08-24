@@ -38,7 +38,7 @@
             overflow-x: hidden;
         }
 
-        /* Scoped to the hero only — a second canvas elsewhere on the page must
+        /* Scoped to the hero only. A second canvas elsewhere on the page must
            not inherit fixed-fullscreen positioning. */
         #canvas-container canvas {
             position: fixed;
@@ -50,7 +50,7 @@
             outline: none;
         }
 
-        /* Text Reveal 02 — hidden until the split runs, so the text never
+        /* Text Reveal 02. Hidden until the split runs, so the text never
            flashes in its final state first. assets/js/text-reveal.js reveals it;
            if that script never arrives, the failsafe at the foot of this file
            does. */
@@ -82,7 +82,7 @@
         /* On phones 100vh is the height WITH the browser chrome hidden, so a
            100vh hero is taller than what you can actually see and the page
            shifts under you as the URL bar retracts. svh is the small viewport
-           height — the honest one. Behind @supports so the h-screen fallback
+           height, the honest one. Behind @supports so the h-screen fallback
            still applies on anything that does not know the unit. */
         @supports (height: 100svh) {
             .hero-vh {
@@ -102,7 +102,7 @@
 
         /* A dimension line, the way a part is called out on a drawing: witness
            marks at each end, a hairline running between them. It is drafting
-           notation rather than decoration — the logotype is being measured, not
+           notation rather than decoration. The logotype is being measured, not
            underlined. Nothing sweeps, pulses or graduates.
            It extends from the left when the section arrives, so the right-hand
            witness mark rides the leading edge and lands on the last letter. */
@@ -115,7 +115,7 @@
             transition: width 950ms cubic-bezier(0.16, 1, 0.3, 1) 250ms;
         }
 
-        /* Witness marks — the vertical terminators at each extent */
+        /* Witness marks: the vertical terminators at each extent */
         .brand-rule::before,
         .brand-rule::after {
             content: "";
@@ -154,7 +154,7 @@
             user-select: none;
         }
 
-        /* Neutral grey, not slate — slate is blue-tinted and reads blue on black. */
+        /* Neutral grey, not slate, because slate is blue-tinted and reads blue on black. */
         .vcard:hover {
             border-color: #3a3a3a;
         }
@@ -188,7 +188,7 @@
         }
 
         /* V3 has no page yet, so hovering covers the photo instead of promising
-           an action. No movement on the panel itself — only the text drifts. */
+           an action. No movement on the panel itself, only the text drifts. */
         .soon-panel {
             opacity: 0;
             transition: opacity 500ms;
@@ -369,7 +369,7 @@
         <section class="relative w-full pt-24 pb-8 lg:min-h-[760px]">
             <!-- reveal-trigger, not reveal-on-scroll: GSAP owns the opacity of
                  every text node in here now, so the container must not fade too
-                 or the two multiply into mush. The class still earns its place —
+                 or the two multiply into mush. The class still earns its place:
                  the observer stamps .reveal-visible on it, which is what draws
                  the brand rule in. -->
             <div class="px-6 md:px-12 max-w-3xl reveal-trigger">
@@ -545,7 +545,7 @@
             rootMargin: '0px 0px -12% 0px',
             threshold: 0.05
         });
-        // .reveal-trigger carries no opacity or transform of its own — it exists
+        // .reveal-trigger carries no opacity or transform of its own. It exists
         // purely to stamp .reveal-visible for descendants that key off it (the
         // brand rule), on blocks whose text GSAP now animates.
         document.querySelectorAll('.reveal-on-scroll, .reveal-trigger').forEach((el) => observer.observe(el));
@@ -724,7 +724,7 @@
             requestAnimationFrame(animate);
             controls.update();
 
-            // Idle rotation continues regardless — it is the model's own life,
+            // Idle rotation continues regardless, because it is the model's own life,
             // not a scroll effect.
             pivotGroup.rotation.y += 0.002;
 
@@ -741,7 +741,7 @@
             pivotGroup.scale.setScalar(1 - scrollEased * 0.22);
 
             // Style writes touch the DOM, so only make them when the value has
-            // actually moved — otherwise this forces a style recalc 60x a second
+            // actually moved. Otherwise this forces a style recalc 60x a second
             // for the whole time the page sits still.
             if (Math.abs(scrollEased - scrollApplied) > 0.001) {
                 scrollApplied = scrollEased;
