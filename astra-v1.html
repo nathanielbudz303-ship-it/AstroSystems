@@ -52,42 +52,36 @@
             transform: none;
         }
 
-        /* A measure line rather than an underline: a hairline that draws itself in
-           on arrival, a bright segment sitting on it, and a tick at the origin.
-           Hovering the title runs the bright segment out to full length. */
+        /* Dimension line, the same one the front page uses: witness marks at each
+           end, a hairline between them. Drafting notation, not an underline. */
         .brand-rule {
             width: 0;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.22);
+            height: 13px;
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0.38),
+                    rgba(255, 255, 255, 0.38)) left center / 100% 1px no-repeat;
             transition: width 950ms cubic-bezier(0.16, 1, 0.3, 1) 250ms;
         }
 
-        .reveal-visible .brand-rule {
-            width: 100%;
-        }
-
-        /* Zero mark */
-        .brand-rule::before {
+        .brand-rule::before,
+        .brand-rule::after {
             content: "";
             position: absolute;
-            left: 0;
-            top: -5px;
+            top: 0;
             width: 2px;
-            height: 11px;
+            height: 13px;
             background: #ffffff;
         }
 
-        .brand-rule-fill {
-            position: absolute;
+        .brand-rule::before {
             left: 0;
-            top: -1px;
-            height: 3px;
-            width: 22%;
-            background: #ffffff;
-            transition: width 700ms cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .brand-mark:hover .brand-rule-fill {
+        .brand-rule::after {
+            right: 0;
+        }
+
+        .reveal-visible .brand-rule {
             width: 100%;
         }
 
@@ -124,13 +118,9 @@
                 transition: none;
             }
 
-            .brand-rule,
-            .brand-rule-fill {
-                transition: none;
-            }
-
             .brand-rule {
                 width: 100%;
+                transition: none;
             }
         }
     </style>
@@ -162,16 +152,14 @@
                     class="block font-mono font-medium text-4xl md:text-[52px] leading-none uppercase tracking-[0.16em] text-white">
                     Astra V1
                 </span>
-                <span class="brand-rule absolute left-0 -bottom-4">
-                    <span class="brand-rule-fill"></span>
-                </span>
+                <span class="brand-rule absolute left-0 -bottom-4"></span>
             </span>
 
             <p class="mt-14 max-w-3xl text-2xl md:text-[30px] font-light leading-[1.35] tracking-tight text-white/90">
                 Our first prototype, showcasing <span class="font-bold text-white">proof of concept and ease of
                     deployment.</span>
             </p>
-            <p class="mt-7 max-w-2xl text-[17px] font-light leading-relaxed text-white/60">
+            <p class="mt-7 max-w-2xl text-[18px] font-light leading-relaxed text-white">
                 V1 existed to answer one question: does a circular wing carry its own weight in forward flight, on an
                 airframe we can build ourselves? Everything on it came off a shelf or off a print bed.
             </p>
