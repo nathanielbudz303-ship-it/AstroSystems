@@ -158,6 +158,27 @@
            always 0.1528 x frame-width of empty frame down each side. Offsetting
            the frame by exactly that much puts the aircraft's own edge 24px from
            the window edge at every size, rather than the frame's edge. */
+        /* The aircraft frame carries an empty margin around a round aircraft, and
+           the dial gets nudged rightwards when the copy column crowds it. Neither
+           SHOWS anything out there, but together they added 173px of scrollable
+           width to the document, and focusing anything off-screen dragged the
+           whole page sideways and took the copy off the left of the window.
+
+           `overflow-x: hidden` on body does not fix that. It makes BODY a scroll
+           container holding that dead width, which is still scrollable
+           programmatically, which is exactly how it got dragged. Clipping here
+           instead means the overflow never reaches the document at all.
+
+           `clip` rather than `hidden` because clip cannot be scrolled by any
+           means. It forces the vertical axis to clip too, and the aircraft
+           deliberately bleeds ~54px above this box at the largest frame size, so
+           overflow-clip-margin lets that painting through without giving the
+           width back. Verified: zero document overflow, nothing cut. */
+        .foil-clip {
+            overflow-x: clip;
+            overflow-clip-margin: 60px;
+        }
+
         .foil-box {
             --foil-w: min(64vw, 108vh);
             width: var(--foil-w);
@@ -370,7 +391,7 @@
 
     <!-- Mission and versions share one backdrop so the aircraft can float across
          both: the fixed hero canvas sits at z-0 and would show through any seam -->
-    <div class="relative z-20 bg-[#020617]">
+    <div class="foil-clip relative z-20 bg-[#020617]">
 
         <!-- The aircraft is absolutely positioned, so it contributes NO layout
              height. That is the whole trick: as a grid column its height forced
