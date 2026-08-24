@@ -300,8 +300,6 @@
 
     <!-- Navigation -->
     <nav class="fixed top-0 right-0 p-6 z-50 flex gap-4">
-        <a href="astra.html"
-            class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">Astra</a>
         <a href="about.html"
             class="px-6 py-2 border border-slate-800/50 bg-slate-950/20 backdrop-blur-md rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">About
             Us</a>
@@ -446,8 +444,12 @@
                 </div>
             </a>
 
-            <a href="astra-v2.html" style="transition-delay: 90ms"
-                class="vcard reveal-on-scroll relative block overflow-hidden bg-black border border-black">
+            <!-- Not a link yet: astra-v2.html does not exist, and a card that
+                 404s is worse than one that plainly waits. Restore the <a
+                 href="astra-v2.html"> wrapper and the CTA row below the moment
+                 the page lands. -->
+            <div style="transition-delay: 90ms"
+                class="vcard vcard-soon reveal-on-scroll relative block overflow-hidden bg-black border border-black">
                 <div class="relative w-full aspect-[3/4] overflow-hidden bg-[#0a1120]">
                     <img src="assets/images/astra/astra-v2.jpg"
                         alt="Astra V2 sitting on the grass at an Air Force airfield, a hangar behind it"
@@ -462,18 +464,8 @@
                     class="absolute inset-x-0 bottom-0 px-6 pt-12 pb-[18px] flex flex-col gap-[5px] bg-gradient-to-t from-black/95 via-black/75 to-transparent">
                     <div class="vcard-title font-display font-bold text-[21px] leading-[1.15] text-white">Astra V2</div>
                     <div class="text-[13px] font-light leading-[1.45] text-white/75">Our entry into the DARPA Heavy Lift Challenge, improving on scale and manufacturing.</div>
-                    <div class="flex items-center justify-between gap-3 h-[18px] mt-px">
-                        <span
-                            class="vcard-cta font-mono text-[10px] leading-[18px] uppercase tracking-[0.14em] text-white whitespace-nowrap">Explore
-                            V2</span>
-                        <svg class="vcard-arrow shrink-0" width="23" height="23" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path class="shaft" d="M3 12h15"></path>
-                            <path class="head" d="M13 7l5 5-5 5"></path>
-                        </svg>
-                    </div>
                 </div>
-            </a>
+            </div>
 
             <!-- Not a link: V3 has no page yet, so this must not be clickable -->
             <div style="transition-delay: 180ms"
@@ -501,7 +493,11 @@
                 <div
                     class="absolute inset-x-0 bottom-0 px-6 pt-12 pb-[18px] flex flex-col gap-[5px] bg-gradient-to-t from-black/95 via-black/75 to-transparent">
                     <div class="vcard-title font-display font-bold text-[21px] leading-[1.15] text-white">Astra V3</div>
-                    <div class="text-[13px] font-light leading-[1.45] text-white/75">[What comes next &mdash; a line or two once the design settles.]</div>
+                    <!-- No description on purpose: the placeholder that sat here
+                         would have shipped literally, brackets and all, and
+                         inventing a claim about an unannounced airframe is worse
+                         than saying nothing. The hover panel carries the state.
+                         Drop your line in here when you have one. -->
                 </div>
             </div>
         </div>
