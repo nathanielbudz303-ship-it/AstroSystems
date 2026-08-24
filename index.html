@@ -79,6 +79,17 @@
             will-change: opacity, transform;
         }
 
+        /* On phones 100vh is the height WITH the browser chrome hidden, so a
+           100vh hero is taller than what you can actually see and the page
+           shifts under you as the URL bar retracts. svh is the small viewport
+           height — the honest one. Behind @supports so the h-screen fallback
+           still applies on anything that does not know the unit. */
+        @supports (height: 100svh) {
+            .hero-vh {
+                height: 100svh;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
 
             .reveal-on-scroll,
@@ -307,7 +318,7 @@
 
     <!-- Hero Section -->
     <section
-        class="relative z-10 h-screen flex flex-col items-center justify-start pt-[10vh] md:pt-[5vh] pointer-events-none">
+        class="hero-vh relative z-10 h-screen flex flex-col items-center justify-start pt-[10vh] md:pt-[5vh] pointer-events-none">
         <div class="hero-copy text-center mix-blend-difference pointer-events-none px-4">
             <img src="assets/images/New Template.png" alt="ASTRO Systems"
                 class="w-full max-w-3xl mx-auto drop-shadow-2xl select-none pointer-events-none">
@@ -368,7 +379,7 @@
                              a block container to live in without collapsing the
                              shrink-wrap the rule measures itself against -->
                         <span data-reveal-02="chars" data-scroll
-                            class="inline-block font-mono font-bold text-5xl md:text-[64px] leading-none uppercase tracking-[0.14em] text-white">ASTRO Systems</span>
+                            class="inline-block font-mono font-bold text-[clamp(1.5rem,8.2vw,4rem)] leading-none uppercase tracking-[0.14em] text-white">ASTRO Systems</span>
                         <span class="brand-rule absolute left-0 -bottom-6"></span>
                     </span>
                 </div>
