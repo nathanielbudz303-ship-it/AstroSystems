@@ -85,12 +85,13 @@ const readout = document.getElementById('foil-readout');
 const slider = document.getElementById('foil-slider');
 const hint = document.getElementById('foil-hint');
 
-// Below lg the container is display:none, so nothing this builds could ever be
+// Below xl the container is display:none, so nothing this builds could ever be
 // seen. The IntersectionObserver inside already keeps the model and the render
 // loop from running, since a hidden element never intersects, but start() would
 // still spin up a WebGL context and generate an environment map for nobody.
-// Bail before any of that, and boot if the window is later widened past lg.
-const DESKTOP = window.matchMedia('(min-width: 1024px)');
+// Bail before any of that, and boot if the window is later widened past xl.
+// 1280 not 1024: below that the aircraft has no room beside the copy column.
+const DESKTOP = window.matchMedia('(min-width: 1280px)');
 let started = false;
 function boot() {
     if (started || !host || !DESKTOP.matches) return;

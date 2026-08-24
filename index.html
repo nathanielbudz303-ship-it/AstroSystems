@@ -145,6 +145,45 @@
             }
         }
 
+        /* The aircraft's size and position both come off ONE number, its frame
+           width, so they cannot drift apart.
+
+           It was `92vw` capped at 1600px, which behaved as two different designs:
+           below ~1739px the aircraft was a fixed 64% of the window, and above it
+           the cap froze the frame so the aircraft shrank away to 43% on a 2560.
+           min() caps against BOTH axes instead, so a wide but short window (an
+           ultrawide, a laptop with a short viewport) cannot blow it up either.
+
+           The frame is 16:10 while the aircraft inside it is round, so there is
+           always 0.1528 x frame-width of empty frame down each side. Offsetting
+           the frame by exactly that much puts the aircraft's own edge 24px from
+           the window edge at every size, rather than the frame's edge. */
+        .foil-box {
+            --foil-w: min(64vw, 108vh);
+            width: var(--foil-w);
+            right: calc(24px - 0.1528 * var(--foil-w));
+        }
+
+        /* The dial lives in the frame's coordinates, so it shrinks and slides
+           left with the aircraft. The copy column does not: it is a fixed 768px.
+           On a 1280 or 1440 laptop those two facts put the dial on top of the
+           mission text.
+
+           The clamp is measured against the dial's WORST case, not its resting
+           one: the readout hangs outboard of the arc and swings furthest left at
+           +30, reaching viewBox -106, which is 0.91345 x frame-width in from the
+           window's right edge. This nudges the dial right by exactly the
+           shortfall when that would land within 24px of the copy, and by nothing
+           at all when there is already room. Transforms are included in
+           getBoundingClientRect, so the drag hit-testing follows it for free.
+
+           Below about 1600px this pushes the dial onto the wing, because there
+           genuinely is no gap between a 768px copy column and the aircraft. On
+           the ring is the better of the two places to be. */
+        #foil-dial-box {
+            transform: translateX(max(0px, calc(768px - 100vw + 0.91345 * var(--foil-w))));
+        }
+
         /* Version cards */
         .vcard {
             transition: border-color 500ms;
@@ -337,7 +376,7 @@
              height. That is the whole trick: as a grid column its height forced
              the row, which opened a hole in the column beside it. Floating it
              lets it be large without pushing anything down. -->
-        <div class="pointer-events-none absolute z-30 hidden lg:block top-0 right-[-10vw] w-[92vw] max-w-[1600px]">
+        <div class="foil-box pointer-events-none absolute z-30 hidden xl:block top-0">
             <div class="relative w-full aspect-[16/10]">
                 <div id="foil-canvas" class="absolute inset-0"></div>
                 <!-- Curved angle-of-attack dial, concentric with the wing -->
@@ -366,7 +405,7 @@
 
         <!-- Mission: who we are, before what we built. min-height keeps the cards
              below the floating aircraft even when the copy is short. -->
-        <section class="relative w-full pt-24 pb-8 lg:min-h-[760px]">
+        <section class="relative w-full pt-24 pb-8 xl:min-h-[760px]">
             <!-- reveal-trigger, not reveal-on-scroll: GSAP owns the opacity of
                  every text node in here now, so the container must not fade too
                  or the two multiply into mush. The class still earns its place:
