@@ -10,9 +10,36 @@ const server = http.createServer((req, res) => {
     // Remove query strings and fragments
     let cleanUrl = req.url.split('?')[0].split('#')[0];
 
-    let filePath = '.' + cleanUrl;
-    if (filePath == './') {
-        filePath = './index.html';
+    // The URL arrives percent-encoded, so a file with a space in its name
+    // reaches us as New%20Template.png and has to be decoded before it will
+    // match anything on disk. Without this the hero wordmark 404s locally even
+    // though the file is right there.
+    let decodedUrl;
+    try {
+        decodedUrl = decodeURIComponent(cleanUrl);
+    } catch (e) {
+        // Malformed escape sequence, e.g. a stray % that decodeURIComponent
+        // throws a URIError on. Never let that take the whole server down.
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end('400 Bad Request');
+        return;
+    }
+
+    if (decodedUrl === '/') {
+        decodedUrl = '/index.html';
+    }
+
+    // Decoding is what makes the containment check below necessary: `..%2f`
+    // means nothing to the old string concatenation, but decodes to `../` and
+    // would walk straight out of the site root. Resolve first, then refuse
+    // anything that landed outside.
+    const root = __dirname;
+    const filePath = path.resolve(root, '.' + decodedUrl);
+    if (filePath !== root && !filePath.startsWith(root + path.sep)) {
+        console.log(`Refused traversal: ${decodedUrl}`);
+        res.writeHead(403, { 'Content-Type': 'text/plain' });
+        res.end('403 Forbidden');
+        return;
     }
 
     const extname = String(path.extname(filePath)).toLowerCase();
@@ -22,7 +49,10 @@ const server = http.createServer((req, res) => {
         '.css': 'text/css',
         '.json': 'application/json',
         '.png': 'image/png',
-        '.jpg': 'image/jpg',
+        // image/jpg is not a real media type. Browsers sniff past it, but
+        // anything stricter would not.
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
         '.gif': 'image/gif',
         '.svg': 'image/svg+xml',
         '.ico': 'image/x-icon',
@@ -41,9 +71,14 @@ const server = http.createServer((req, res) => {
 
     fs.readFile(filePath, (error, content) => {
         if (error) {
-            if (error.code == 'ENOENT') {
+            // EISDIR is a request for a directory, e.g. /assets. It is a miss,
+            // not a server fault, so it must not fall through to the 500.
+            if (error.code == 'ENOENT' || error.code == 'EISDIR') {
                 console.log(`File not found: ${filePath}`);
-                fs.readFile('./404.html', (error, content) => {
+                // Resolved against the site root rather than the working
+                // directory, so the 404 page is still found when the server is
+                // started from somewhere else.
+                fs.readFile(path.join(root, '404.html'), (error, content) => {
                     res.writeHead(404, { 'Content-Type': 'text/html' });
                     res.end(content || '404 Not Found', 'utf-8');
                 });
