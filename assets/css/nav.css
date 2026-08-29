@@ -1,0 +1,97 @@
+/* ---- Site navigation -------------------------------------------------------
+   Shared by every page. It lives out here rather than in five inline <style>
+   blocks because the sizing gets tuned by eye: one edit in this file moves the
+   nav on the whole site, instead of five edits that drift apart the first time
+   one is missed.
+
+   Pair it with assets/js/nav.js, which owns the open state. */
+
+.site-nav {
+    /* Tailwind's preflight already flattens lists, but this component is meant
+       to survive being dropped on a page that does not load Tailwind. */
+    list-style: none;
+}
+
+.nav-toggle {
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 2px;
+    padding: 5px 13px;
+    font-size: 19px;
+    line-height: 1.25;
+    color: #ffffff;
+    transition: border-color 300ms;
+}
+
+.nav-toggle:hover {
+    border-color: #ffffff;
+}
+
+/* Same split the version cards use: a mouse click leaves no ring, a keyboard
+   tab gets a clear one. */
+.nav-toggle:focus {
+    outline: none;
+}
+
+.nav-toggle:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+/* Opacity and transform do the animating.
+   A closed menu must also be unreachable by keyboard. The usual trick for that
+   is `visibility: hidden` transitioned on a delay, so the fade finishes before
+   the element goes away, but it ties an accessibility guarantee to animation
+   timing: anything that stalls the transition leaves invisible links sitting in
+   the tab order. assets/js/nav.js toggles `inert` instead, which drops the
+   whole subtree out of the tab order, the a11y tree and hit testing in one
+   move, the moment we ask it to, whatever the animation is doing. */
+.nav-menu {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 260ms,
+        transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.site-nav[data-open] .nav-menu {
+    opacity: 1;
+    transform: none;
+}
+
+.nav-menu a {
+    display: block;
+    font-size: 22px;
+    line-height: 28px;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 300ms;
+}
+
+.nav-menu a:hover {
+    color: #ffffff;
+}
+
+/* The page you are on is the one item at full white. aria-current is doing the
+   styling as well as the announcing, so the two can never disagree. */
+.nav-menu a[aria-current="page"] {
+    color: #ffffff;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.nav-menu a:focus {
+    outline: none;
+}
+
+.nav-menu a:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-menu {
+        transition: none;
+    }
+}

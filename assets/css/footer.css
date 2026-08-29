@@ -1,0 +1,102 @@
+/* ---- Site footer -----------------------------------------------------------
+   Shared by every page, same reasoning as assets/css/nav.css: one edit moves
+   the footer everywhere instead of five that drift apart.
+
+   The footer is deliberately NOT given .reveal-on-scroll. It is a full-bleed
+   opaque band sitting over a fixed 3D canvas at z-0, so while it is mid-reveal
+   it is not a footer fading in, it is a hole with the aircraft showing through
+   it. Anything that keeps the observer from firing, a missed threshold or a
+   background tab, leaves that hole on screen permanently. The band stays
+   opaque; if something in here should animate, animate its contents. */
+
+.footer-label {
+    font-size: 10px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #ffffff;
+}
+
+.footer-links {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-links li + li {
+    margin-top: 9px;
+}
+
+.footer-links a {
+    font-size: 15px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 300ms;
+    /* The contact address is one long unbroken token and the columns are
+       narrow on a phone. Without this it pushes the grid wider than the
+       screen. */
+    overflow-wrap: anywhere;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+}
+
+/* Same split used across the site: a mouse click leaves no ring, a keyboard
+   tab gets a clear one. */
+.footer-links a:focus {
+    outline: none;
+}
+
+.footer-links a:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* Social icons. Same resting dim as the text links so the row reads as one
+   family, resolving to LinkedIn's own blue on hover, which is the treatment
+   already used on the team cards in about.html. */
+.footer-social {
+    display: inline-flex;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 300ms;
+}
+
+/* Sized here rather than on the width/height attributes so the icons can be
+   retuned in one place. The attributes stay on the SVG as a fallback. */
+.footer-social svg {
+    width: 40px;
+    height: 40px;
+}
+
+.footer-social:hover {
+    color: #0077b5;
+}
+
+.footer-social:focus {
+    outline: none;
+}
+
+.footer-social:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+}
+
+/* V3 has no page behind it, so it must not read as a link: no hover lift, no
+   pointer, and dimmer than the things you can actually click. */
+.footer-soon {
+    display: block;
+    font-size: 15px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.38);
+    cursor: default;
+}
+
+.footer-soon span {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(255, 255, 255, 0.3);
+}

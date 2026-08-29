@@ -14,6 +14,8 @@
         rel="stylesheet">
 
     <!-- Tailwind CSS (CDN) -->
+    <link rel="stylesheet" href="assets/css/nav.css">
+    <script defer src="assets/js/nav.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -55,6 +57,22 @@
             transform: translateY(0);
         }
     </style>
+    <!-- With scripting off the Menu button has nothing to toggle. Drop the
+         button and leave the links standing open rather than shipping a nav
+         that cannot be reached. -->
+    <noscript>
+        <style>
+            .nav-toggle {
+                display: none;
+            }
+
+            .nav-menu {
+                margin-top: 0;
+                opacity: 1;
+                transform: none;
+            }
+        </style>
+    </noscript>
 </head>
 
 <body class="bg-slate-950">
@@ -66,11 +84,16 @@
     </a>
 
     <!-- Navigation -->
-    <nav class="absolute top-0 right-0 p-6 z-50 flex gap-4">
-        <a href="index.html"
-            class="px-6 py-2 border border-white/20 rounded-full text-sm font-light uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all duration-300">
-            Home
-        </a>
+    <nav class="site-nav fixed top-0 right-0 p-6 z-50 text-right">
+        <button id="nav-toggle" type="button" class="nav-toggle" aria-expanded="false"
+            aria-controls="nav-menu">Menu</button>
+        <ul id="nav-menu" class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="astra-v1.html">Astra V1</a></li>
+            <li><a href="astra-v2.html">Astra V2</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="about.html" aria-current="page">About</a></li>
+        </ul>
     </nav>
 
     <!-- Team Section -->
